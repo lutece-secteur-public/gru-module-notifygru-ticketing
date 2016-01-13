@@ -36,6 +36,9 @@ package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
 
 
 
+import fr.paris.lutece.plugins.genericattributes.business.Entry;
+import fr.paris.lutece.plugins.genericattributes.business.EntryFilter;
+import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
 import fr.paris.lutece.plugins.ticketing.business.ContactMode;
 import fr.paris.lutece.plugins.ticketing.business.ContactModeHome;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
@@ -43,6 +46,8 @@ import fr.paris.lutece.plugins.ticketing.business.TicketCategory;
 import fr.paris.lutece.plugins.ticketing.business.TicketCategoryHome;
 import fr.paris.lutece.plugins.ticketing.business.TicketDomain;
 import fr.paris.lutece.plugins.ticketing.business.TicketDomainHome;
+import fr.paris.lutece.plugins.ticketing.business.TicketForm;
+import fr.paris.lutece.plugins.ticketing.business.TicketFormHome;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.business.TicketType;
 import fr.paris.lutece.plugins.ticketing.business.TicketTypeHome;
@@ -110,15 +115,43 @@ public class ProviderTicketing extends AbstractServiceProvider
     	
     }
 
- 
+ private static List<Entry> getFilter( int idForm )
+    {
+        EntryFilter filter = new EntryFilter(  );
+        filter.setIdResource( idForm );
+        filter.setResourceType( TicketForm.RESOURCE_TYPE );
+        filter.setEntryParentNull( EntryFilter.FILTER_TRUE );
+        filter.setFieldDependNull( EntryFilter.FILTER_TRUE );
+
+        List<Entry> listEntryFirstLevel = EntryHome.getEntryList( filter );
+
+        return listEntryFirstLevel;
+    }
 
     @Override
     public String getInfosHelp( Locale local )
     {
         
-    	
+    	  TicketForm form=null;
     
-    	List<Ticket> lTicket = TicketHome.getTicketsList();
+    	List<Integer> lTicket = TicketHome.getIdTicketsList();
+        
+        for (Integer nIdTicket: lTicket) {
+             _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+             form = TicketFormHome.findByCategoryId( _ticket.getIdTicketCategory() );
+             
+             if(form!=null) {
+             List<Entry> listEntryFirstLevel = getFilter( form.getIdForm(  ) );
+
+        for ( Entry entry : listEntryFirstLevel )
+        {
+          String srtTitle= entry.getTitle();
+        }
+             }
+              
+        
+        form=null;
+        }
     	 
     	 
         Map<String, Object> model = new HashMap<String, Object>(  );
