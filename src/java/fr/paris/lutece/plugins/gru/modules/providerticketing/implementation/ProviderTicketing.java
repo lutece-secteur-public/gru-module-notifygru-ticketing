@@ -35,8 +35,7 @@ package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
 
 
 
-import fr.paris.lutece.plugins.directory.business.IEntry;
-import fr.paris.lutece.plugins.directory.service.DirectoryPlugin;
+
 import fr.paris.lutece.plugins.ticketing.business.ContactMode;
 import fr.paris.lutece.plugins.ticketing.business.ContactModeHome;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
@@ -89,8 +88,7 @@ public class ProviderTicketing extends AbstractServiceProvider
     //config provider  
     private String _strStatusTexte;
 
-    Plugin pluginDirectory = PluginService.getPlugin( DirectoryPlugin.PLUGIN_NAME );
-
+   
     @Override
     public String getUserEmail( int nIdResource )
     {
@@ -120,7 +118,7 @@ public class ProviderTicketing extends AbstractServiceProvider
         
     	
     
-    	
+    	List<Ticket> lTicket = TicketHome.getTicketsList();
     	 
     	 
         Map<String, Object> model = new HashMap<String, Object>(  );

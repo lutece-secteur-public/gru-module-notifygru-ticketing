@@ -41,20 +41,7 @@ package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
  */
 public final class ProviderTicketingConstants
 {
-    // CONSTANTS
-   // public static final String COMMA = ",";
-
-//    // PROPERTIES
-//    public static final String PROPERTY_ACCEPTED_DIRECTORY_ENTRY_TYPE_EMAIL_SMS = "workflow-notifygru.acceptedDirectoryEntryTypesEmailSMS";
-//    public static final String PROPERTY_ACCEPTED_DIRECTORY_ENTRY_TYPE_USER_GUID = "workflow-notifygru.acceptedDirectoryEntryTypesUserGuid";
-//    public static final String PROPERTY_REFUSED_DIRECTORY_ENTRY_TYPE_USER_GUID = "workflow-notifygru.refusedDirectoryEntryTypes";
-//    public static final String PROPERTY_ACCEPTED_DIRECTORY_ENTRY_TYPE_FILE = "workflow-notifygru.acceptedDirectoryEntryTypesFile";
-//    public static final String PROPERTY_NOTIFY_MAIL_DEFAULT_SENDER_NAME = "workflow-notifygru.notification_mail.default_sender_name";
-//    public static final String PROPERTY_SERVER_SMS = "workflow-notifygru.email_server_sms";    
-//    public static final String PROPERTY_LUTECE_ADMIN_PROD_URL = "lutece.admin.prod.url";
-//    public static final String PROPERTY_LUTECE_BASE_URL = "lutece.base.url";
-//    public static final String PROPERTY_LUTECE_PROD_URL = "lutece.prod.url";
-
+   
     // MARKS 
     public static final String MARK_GUID = "guid";
     public static final String MARK_FIRSTNAME = "firstname";

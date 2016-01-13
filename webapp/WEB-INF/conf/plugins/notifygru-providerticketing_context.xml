@@ -18,6 +18,5 @@
              
             />
         
-           <bean id="notifygru-providerticketing.ProviderTicketingService" class="fr.paris.lutece.plugins.gru.modules.providerticketing.implementation.ProviderTicketingService" />
-    
+           
 </beans>
