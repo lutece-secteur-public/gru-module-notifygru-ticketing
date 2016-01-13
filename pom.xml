@@ -59,8 +59,8 @@
    
     <properties>
    <componentName>Module Provider Ticketing </componentName>
-        <jiraProjectName>XXXXXXX</jiraProjectName>
-        <jiraComponentId>0000000</jiraComponentId>
+        <jiraProjectName>MPTCKETING</jiraProjectName>
+        <jiraComponentId>12926</jiraComponentId>
     </properties>
     
     <scm>
