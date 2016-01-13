@@ -55,6 +55,7 @@ public final class ProviderTicketingConstants
     public static final String MARK_TICKET_CATEGORIES = "ticket_categorie";
     public static final String MARK_CONTACT_MODES = "contact_mode";
     public static final String MARK_COMMENT= "comment";
+    public static final String MARK_LIST_FORM= "list_form";
     
     public static final String MARK_TICKET = "ticket"; 
     public static final String MARK_LIST_MARKER= "list_markers";

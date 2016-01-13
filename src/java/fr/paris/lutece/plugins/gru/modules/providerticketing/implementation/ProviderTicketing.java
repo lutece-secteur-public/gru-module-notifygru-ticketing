@@ -33,12 +33,10 @@
  */
 package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
 
-
-
-
 import fr.paris.lutece.plugins.genericattributes.business.Entry;
 import fr.paris.lutece.plugins.genericattributes.business.EntryFilter;
 import fr.paris.lutece.plugins.genericattributes.business.EntryHome;
+import fr.paris.lutece.plugins.genericattributes.business.Response;
 import fr.paris.lutece.plugins.ticketing.business.ContactMode;
 import fr.paris.lutece.plugins.ticketing.business.ContactModeHome;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
@@ -53,9 +51,8 @@ import fr.paris.lutece.plugins.ticketing.business.TicketType;
 import fr.paris.lutece.plugins.ticketing.business.TicketTypeHome;
 import fr.paris.lutece.plugins.ticketing.business.UserTitle;
 import fr.paris.lutece.plugins.ticketing.business.UserTitleHome;
+import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
-
-
 
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
@@ -64,13 +61,10 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.workflow.WorkflowService;
 
-
-
-
-
-
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.util.AbstractList;
+import java.util.ArrayList;
 
 import java.util.HashMap;
 import java.util.List;
@@ -79,238 +73,230 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+public class ProviderTicketing extends AbstractServiceProvider {
 
-
-public class ProviderTicketing extends AbstractServiceProvider
-{
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/providerticketing/freemarker_list.html";
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-    
+
     private Ticket _ticket;
- 
-  
+
     //config provider  
     private String _strStatusTexte;
+    private static Plugin _plugin = PluginService.getPlugin(TicketingPlugin.PLUGIN_NAME);
 
-   
     @Override
-    public String getUserEmail( int nIdResource )
-    {
-    	
-    	 ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResource );
-     	// _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+    public String getUserEmail(int nIdResource) {
 
-     	 int nIdTicket = resourceHistory.getIdResource();
-         _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-       
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+
+        int nIdTicket = resourceHistory.getIdResource();
+        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
+
         return _ticket.getEmail();
     }
 
     @Override
-    public String getUserGuid( int nIdResource )
-    {  
-    	
-    	return "getUserGuid Provider";  
-    	
+    public String getUserGuid(int nIdResource) {
+
+        return "getUserGuid Provider";
+
     }
 
- private static List<Entry> getFilter( int idForm )
-    {
-        EntryFilter filter = new EntryFilter(  );
-        filter.setIdResource( idForm );
-        filter.setResourceType( TicketForm.RESOURCE_TYPE );
-        filter.setEntryParentNull( EntryFilter.FILTER_TRUE );
-        filter.setFieldDependNull( EntryFilter.FILTER_TRUE );
+    private static List<Entry> getFilter(int idForm) {
+        EntryFilter filter = new EntryFilter();
+        filter.setIdResource(idForm);
+        filter.setResourceType(TicketForm.RESOURCE_TYPE);
+        filter.setEntryParentNull(EntryFilter.FILTER_TRUE);
+        filter.setFieldDependNull(EntryFilter.FILTER_TRUE);
 
-        List<Entry> listEntryFirstLevel = EntryHome.getEntryList( filter );
+        List<Entry> listEntryFirstLevel = EntryHome.getEntryList(filter);
 
         return listEntryFirstLevel;
     }
 
     @Override
-    public String getInfosHelp( Locale local )
-    {
-        
-    	  TicketForm form=null;
-    
-    	List<Integer> lTicket = TicketHome.getIdTicketsList();
-        
-        for (Integer nIdTicket: lTicket) {
-             _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-             form = TicketFormHome.findByCategoryId( _ticket.getIdTicketCategory() );
-             
-             if(form!=null) {
-             List<Entry> listEntryFirstLevel = getFilter( form.getIdForm(  ) );
+    public String getInfosHelp(Locale local) {
 
-        for ( Entry entry : listEntryFirstLevel )
-        {
-          String srtTitle= entry.getTitle();
+        Map<String, Object> model = new HashMap<String, Object>();
+        _ticket = new Ticket();
+
+        model.put(ProviderTicketingConstants.MARK_GUID, "");
+        model.put(ProviderTicketingConstants.MARK_FIRSTNAME, "");
+        model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
+        model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
+        model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
+        model.put(ProviderTicketingConstants.MARK_EMAIL, "");
+        model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
+        model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
+        model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, "");
+        model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
+        model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");
+        model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
+        model.put(ProviderTicketingConstants.MARK_COMMENT, "");
+
+        List<FormCategoryTicket> lformModel = new ArrayList<>();
+        List<TicketForm> lform = TicketFormHome.getTicketFormsList();
+
+        for (TicketForm form : lform) {
+
+            List<Entry> listEntryFirstLevel = getFilter(form.getIdForm());
+//            for (Entry listEntryFirstLevel1 : listEntryFirstLevel) {
+//               // listEntryFirstLevel1.getPosition()
+//            }
+            FormCategoryTicket formModel = new FormCategoryTicket();
+            formModel.setForm(form);
+            formModel.setEntity(listEntryFirstLevel);
+            lformModel.add(formModel);
         }
-             }
-              
-        
-        form=null;
-        }
-    	 
-    	 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        _ticket = new Ticket(  );
-       
-        model.put( ProviderTicketingConstants.MARK_GUID,  "");
-        model.put( ProviderTicketingConstants.MARK_FIRSTNAME,  "");
-        model.put( ProviderTicketingConstants.MARK_LASTNAME,  "");
-        model.put( ProviderTicketingConstants.MARK_FIXED_PHONE,  "");
-        model.put( ProviderTicketingConstants.MARK_MOBILE_PHONE,  "");
-        model.put( ProviderTicketingConstants.MARK_EMAIL, "");
-        model.put( ProviderTicketingConstants.MARK_TICKET,  _ticket);
-        model.put( ProviderTicketingConstants.MARK_USER_TITLES,  "");
-        model.put( ProviderTicketingConstants.MARK_TICKET_TYPES, "");
-        model.put( ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
-        model.put( ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");      
-        model.put( ProviderTicketingConstants.MARK_CONTACT_MODES, "");
-        model.put( ProviderTicketingConstants.MARK_COMMENT, "");
-      
+
+        model.put(ProviderTicketingConstants.MARK_LIST_FORM, lformModel);
 
         @SuppressWarnings("deprecation")
-		HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl( AppTemplateService.getTemplate( 
-                    TEMPLATE_FREEMARKER_LIST, local, model ).getHtml(  ), local, model );
+        HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl(AppTemplateService.getTemplate(
+                TEMPLATE_FREEMARKER_LIST, local, model).getHtml(), local, model);
 
-        String strResourceInfo = t.getHtml(  );
+        String strResourceInfo = t.getHtml();
 
         return strResourceInfo;
-        
-    
+
     }
 
     @Override
-    public Map<String, Object> getInfos( int nIdResource )
-    {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+    public Map<String, Object> getInfos(int nIdResource) {
+        Map<String, Object> model = new HashMap<String, Object>();
 
-        
-        
-        
-   
-      
-        
-        if ( nIdResource > 0 )
-        {
-        	
-        	 ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResource );
-        	// _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+        if (nIdResource > 0) {
 
-        	 int nIdTicket = resourceHistory.getIdResource();
-            _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-            
-            
-            UserTitle usertitle= UserTitleHome.findByPrimaryKey(_ticket.getIdUserTitle());
-            
+            ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+            // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+
+            int nIdTicket = resourceHistory.getIdResource();
+            _ticket = TicketHome.findByPrimaryKey(nIdTicket);
+
+            UserTitle usertitle = UserTitleHome.findByPrimaryKey(_ticket.getIdUserTitle());
+
             TicketType typeTicket = TicketTypeHome.findByPrimaryKey(_ticket.getIdTicketType());
-            
-           
+
             TicketDomain typeDomaine = TicketDomainHome.findByPrimaryKey(_ticket.getIdTicketDomain());
-            
-            TicketCategory typeCategory= TicketCategoryHome.findByPrimaryKey(_ticket.getIdTicketCategory());
-            
-            ContactMode typeContactMode= ContactModeHome.findByPrimaryKey(_ticket.getIdContactMode());
-            
-            
-        	   model.put( ProviderTicketingConstants.MARK_GUID,  111);
-               model.put( ProviderTicketingConstants.MARK_FIRSTNAME,  _ticket.getFirstname());
-               model.put( ProviderTicketingConstants.MARK_LASTNAME,  _ticket.getLastname());
-               model.put( ProviderTicketingConstants.MARK_FIXED_PHONE,  _ticket.getFixedPhoneNumber());
-               model.put( ProviderTicketingConstants.MARK_MOBILE_PHONE,  _ticket.getMobilePhoneNumber());
-               model.put( ProviderTicketingConstants.MARK_EMAIL,  _ticket.getEmail());
-               model.put( ProviderTicketingConstants.MARK_TICKET,  _ticket);
-               model.put( ProviderTicketingConstants.MARK_USER_TITLES,  _ticket.getUserTitle());
-               model.put( ProviderTicketingConstants.MARK_TICKET_TYPES,  _ticket.getTicketType());
-               model.put( ProviderTicketingConstants.MARK_TICKET_DOMAINS, _ticket.getTicketDomain());
-               model.put( ProviderTicketingConstants.MARK_TICKET_CATEGORIES, _ticket.getTicketCategory());        
-               model.put( ProviderTicketingConstants.MARK_CONTACT_MODES, _ticket.getContactMode());
-               model.put( ProviderTicketingConstants.MARK_COMMENT,  _ticket.getTicketComment());
-        }
-        else
-        {
-            model.put( ProviderTicketingConstants.MARK_GUID,  "");
-            model.put( ProviderTicketingConstants.MARK_FIRSTNAME,  "");
-            model.put( ProviderTicketingConstants.MARK_LASTNAME,  "");
-            model.put( ProviderTicketingConstants.MARK_FIXED_PHONE,  "");
-            model.put( ProviderTicketingConstants.MARK_MOBILE_PHONE,  "");
-            model.put( ProviderTicketingConstants.MARK_EMAIL, "");
-            model.put( ProviderTicketingConstants.MARK_TICKET,  _ticket);
-            model.put( ProviderTicketingConstants.MARK_USER_TITLES,  "");
-            model.put( ProviderTicketingConstants.MARK_TICKET_TYPES, "");
-            model.put( ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
-            model.put( ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");      
-            model.put( ProviderTicketingConstants.MARK_CONTACT_MODES, "");
-            model.put( ProviderTicketingConstants.MARK_COMMENT, "");
+
+            TicketCategory typeCategory = TicketCategoryHome.findByPrimaryKey(_ticket.getIdTicketCategory());
+
+            ContactMode typeContactMode = ContactModeHome.findByPrimaryKey(_ticket.getIdContactMode());
+
+            model.put(ProviderTicketingConstants.MARK_GUID, 111);
+            model.put(ProviderTicketingConstants.MARK_FIRSTNAME, _ticket.getFirstname());
+            model.put(ProviderTicketingConstants.MARK_LASTNAME, _ticket.getLastname());
+            model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, _ticket.getFixedPhoneNumber());
+            model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, _ticket.getMobilePhoneNumber());
+            model.put(ProviderTicketingConstants.MARK_EMAIL, _ticket.getEmail());
+            model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
+            model.put(ProviderTicketingConstants.MARK_USER_TITLES, _ticket.getUserTitle());
+            model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, _ticket.getTicketType());
+            model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, _ticket.getTicketDomain());
+            model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, _ticket.getTicketCategory());
+            model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, _ticket.getContactMode());
+            model.put(ProviderTicketingConstants.MARK_COMMENT, _ticket.getTicketComment());
+
+            TicketForm form = null;
+            if (typeCategory.getIdTicketForm() > 0) {
+                form = TicketFormHome.findByPrimaryKey(typeCategory.getIdTicketForm());
+
+                List<Entry> listEntryFirstLevel = getFilter(form.getIdForm());
+
+                List<Response> response = _ticket.getListResponse();
+
+                for (Entry entity : listEntryFirstLevel) {
+                    model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), ""); //for error 500, not existing freemarker
+                    // listEntryFirstLevel1.getPosition()
+                    for (Response response1 : response) {
+                        if (response1.getEntry().getTitle().equals(entity.getTitle()) && response1.getEntry().getCode().equals(entity.getCode())) {
+                            model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), response1.getResponseValue());
+                        }
+                    }
+
+                }
+
+            }
+
+        } else {
+            model.put(ProviderTicketingConstants.MARK_GUID, "");
+            model.put(ProviderTicketingConstants.MARK_FIRSTNAME, "");
+            model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
+            model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
+            model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
+            model.put(ProviderTicketingConstants.MARK_EMAIL, "");
+            model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
+            model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
+            model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, "");
+            model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
+            model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");
+            model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
+            model.put(ProviderTicketingConstants.MARK_COMMENT, "");
+
+            List<FormCategoryTicket> lformModel = new ArrayList<>();
+            List<TicketForm> lform = TicketFormHome.getTicketFormsList();
+
+            for (TicketForm form : lform) {
+
+                List<Entry> listEntryFirstLevel = getFilter(form.getIdForm());
+                for (Entry entity : listEntryFirstLevel) {
+                    // listEntryFirstLevel1.getPosition()
+
+                    model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), "");
+                }
+
+            }
+
         }
 
         return model;
     }
 
-     @Override
-    public String getOptionalMobilePhoneNumber( int nIdResource )
-    {
-    	 ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResource );
-      	// _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+    @Override
+    public String getOptionalMobilePhoneNumber(int nIdResource) {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
 
-      	 int nIdTicket = resourceHistory.getIdResource();
-          _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-        
-         return _ticket.getMobilePhoneNumber();
+        int nIdTicket = resourceHistory.getIdResource();
+        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
+
+        return _ticket.getMobilePhoneNumber();
     }
 
-   
+    @Override
+    public int getOptionalDemandId(int nIdResource) {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
 
-   @Override
-    public int getOptionalDemandId( int nIdResource )
-    {
-	   ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResource );
-     	// _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+        int nIdTicket = resourceHistory.getIdResource();
+        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
 
-     	 int nIdTicket = resourceHistory.getIdResource();
-         _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-       
         return _ticket.getId();
     }
 
-  
-   
+    @Override
+    public int getOptionalDemandIdType(int nIdResource) {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
 
-@Override
-    public int getOptionalDemandIdType( int nIdResource )
-    {
-	ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResource );
- 	// _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+        int nIdTicket = resourceHistory.getIdResource();
+        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
 
- 	 int nIdTicket = resourceHistory.getIdResource();
-     _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-   
-    return _ticket.getIdTicketType();
+        return _ticket.getIdTicketType();
     }
 
-
-    public Boolean isIdDemandTypeAvailable( int nIdResource )
-    {
+    public Boolean isIdDemandTypeAvailable(int nIdResource) {
         return true;
     }
 
-
-  
-
-
-
-    public String getStatusTexte(  )
-    {
-    	return this._strStatusTexte;
+    public String getStatusTexte() {
+        return this._strStatusTexte;
     }
 
-    public void setStatusTexte( String _strStatusTexte )
-    {
+    public void setStatusTexte(String _strStatusTexte) {
         this._strStatusTexte = _strStatusTexte;
     }
 
-   
 }

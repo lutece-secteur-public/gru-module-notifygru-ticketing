@@ -1,5 +1,5 @@
-<div class="row">
-
+<div class="row table-responsive">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">  
 
 	<fieldset>
 		<legend style="font-size: 1em">#i18n{module.gru.providerticketing.module.label_entry_ticketing_comment}</legend>
@@ -70,5 +70,36 @@
 		</table>
 	</fieldset>
 
+</div>
+    
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">  
 
+	<fieldset>
+		
+
+  <#list list_form as formModel>
+<legend style="font-size: 1em">${formModel.form.title}</legend>
+           <table class="table table-striped table-condensed">
+
+
+			<tr>
+				<th>#i18n{module.gru.providerticketing.module.label_entry}</th>
+				<th>#i18n{module.gru.providerticketing.module.label_freemarker}</th>
+			</tr>
+<#list formModel.entity as entity>
+
+			<tr>
+				<td>${entity.title}</td>
+				<td>&#36;&#123;formSol_${formModel.form.idForm}_entity_${entity.position}&#125;</td>
+			</tr>
+
+ </#list>
+
+
+		</table>      
+ </#list>
+		
+	</fieldset>
+
+</div>
 </div>
