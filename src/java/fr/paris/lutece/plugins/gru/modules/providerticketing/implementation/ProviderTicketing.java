@@ -100,7 +100,13 @@ public class ProviderTicketing extends AbstractServiceProvider {
     @Override
     public String getUserGuid(int nIdResource) {
 
-        return "getUserGuid Provider";
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+
+        int nIdTicket = resourceHistory.getIdResource();
+        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
+
+        return _ticket.getGuid();
 
     }
 
