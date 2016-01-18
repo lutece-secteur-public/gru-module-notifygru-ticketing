@@ -279,7 +279,8 @@ public class ProviderTicketing extends AbstractServiceProvider {
         int nIdTicket = resourceHistory.getIdResource();
         _ticket = TicketHome.findByPrimaryKey(nIdTicket);
 
-        return _ticket.getId();
+       // return _ticket.getId();
+        return 1099;
     }
 
     @Override
