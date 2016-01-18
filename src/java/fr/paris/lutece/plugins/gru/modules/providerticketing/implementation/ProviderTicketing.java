@@ -179,7 +179,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
 
             int nIdTicket = resourceHistory.getIdResource();
-            _ticket = TicketHome.findByPrimaryKey(nIdTicket);
+            _ticket = TicketHome.findByPrimaryKey(nIdTicket); 
 
             UserTitle usertitle = UserTitleHome.findByPrimaryKey(_ticket.getIdUserTitle());
 
@@ -213,10 +213,10 @@ public class ProviderTicketing extends AbstractServiceProvider {
 
                 List<Response> response = _ticket.getListResponse();
 
-                for (Entry entity : listEntryFirstLevel) {
+                for (Entry entity : listEntryFirstLevel) { 
                     model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), ""); //for error 500, not existing freemarker
                     // listEntryFirstLevel1.getPosition()
-                    for (Response response1 : response) {
+                    for (Response response1 : response) { 
                         if (response1.getEntry().getTitle().equals(entity.getTitle()) && response1.getEntry().getCode().equals(entity.getCode())) {
                             model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), response1.getResponseValue());
                         }
@@ -279,8 +279,9 @@ public class ProviderTicketing extends AbstractServiceProvider {
         int nIdTicket = resourceHistory.getIdResource();
         _ticket = TicketHome.findByPrimaryKey(nIdTicket);
 
-       // return _ticket.getId();
+        //return _ticket.getId();
         return 1099;
+       
     }
 
     @Override
