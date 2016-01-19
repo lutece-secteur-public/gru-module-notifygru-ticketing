@@ -133,6 +133,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
         model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
         model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
         model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
+        model.put(ProviderTicketingConstants.MARK_REFERENCE, "");
         model.put(ProviderTicketingConstants.MARK_EMAIL, "");
         model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
         model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
@@ -142,7 +143,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
         model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
         model.put(ProviderTicketingConstants.MARK_COMMENT, "");
 
-        List<FormCategoryTicket> lformModel = new ArrayList<>();
+     /*   List<FormCategoryTicket> lformModel = new ArrayList<>();
         List<TicketForm> lform = TicketFormHome.getTicketFormsList();
 
         for (TicketForm form : lform) {
@@ -157,7 +158,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             lformModel.add(formModel);
         }
 
-        model.put(ProviderTicketingConstants.MARK_LIST_FORM, lformModel);
+        model.put(ProviderTicketingConstants.MARK_LIST_FORM, lformModel);  */
 
         @SuppressWarnings("deprecation")
         HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl(AppTemplateService.getTemplate(
@@ -191,12 +192,13 @@ public class ProviderTicketing extends AbstractServiceProvider {
 
             ContactMode typeContactMode = ContactModeHome.findByPrimaryKey(_ticket.getIdContactMode());
 
-            model.put(ProviderTicketingConstants.MARK_GUID, 111);
+            model.put(ProviderTicketingConstants.MARK_GUID, _ticket.getGuid());
             model.put(ProviderTicketingConstants.MARK_FIRSTNAME, _ticket.getFirstname());
             model.put(ProviderTicketingConstants.MARK_LASTNAME, _ticket.getLastname());
             model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, _ticket.getFixedPhoneNumber());
             model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, _ticket.getMobilePhoneNumber());
             model.put(ProviderTicketingConstants.MARK_EMAIL, _ticket.getEmail());
+            model.put(ProviderTicketingConstants.MARK_REFERENCE, _ticket.getReference());
             model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
             model.put(ProviderTicketingConstants.MARK_USER_TITLES, _ticket.getUserTitle());
             model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, _ticket.getTicketType());
@@ -205,7 +207,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, _ticket.getContactMode());
             model.put(ProviderTicketingConstants.MARK_COMMENT, _ticket.getTicketComment());
 
-            TicketForm form = null;
+         /*   TicketForm form = null;
             if (typeCategory.getIdTicketForm() > 0) {
                 form = TicketFormHome.findByPrimaryKey(typeCategory.getIdTicketForm());
 
@@ -224,7 +226,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
 
                 }
 
-            }
+            }  */
 
         } else {
             model.put(ProviderTicketingConstants.MARK_GUID, "");
@@ -232,6 +234,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
             model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
             model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
+            model.put(ProviderTicketingConstants.MARK_REFERENCE, "");
             model.put(ProviderTicketingConstants.MARK_EMAIL, "");
             model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
             model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
@@ -241,7 +244,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
             model.put(ProviderTicketingConstants.MARK_COMMENT, "");
 
-            List<FormCategoryTicket> lformModel = new ArrayList<>();
+         /*   List<FormCategoryTicket> lformModel = new ArrayList<>();
             List<TicketForm> lform = TicketFormHome.getTicketFormsList();
 
             for (TicketForm form : lform) {
@@ -253,7 +256,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
                     model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), "");
                 }
 
-            }
+            }  */
 
         }
 
