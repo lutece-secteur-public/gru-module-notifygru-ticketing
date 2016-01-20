@@ -53,9 +53,11 @@ import fr.paris.lutece.plugins.ticketing.business.UserTitle;
 import fr.paris.lutece.plugins.ticketing.business.UserTitleHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
+import fr.paris.lutece.plugins.workflow.modules.notifygru.utils.constants.NotifyGruConstants;
 
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -287,6 +289,11 @@ public class ProviderTicketing extends AbstractServiceProvider {
        
     }
 
+    private String getI18nMarker(String strkey) {
+    
+         return new String(I18nService.getLocalizedString(NotifyGruConstants.TITLE_NOTIFY, Locale.getDefault()));
+        
+    }
     @Override
     public int getOptionalDemandIdType(int nIdResource) {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
