@@ -49,7 +49,7 @@ public final class ProviderTicketingConstants
     public static final String MARK_FIXED_PHONE = "fixed_phone";
     public static final String MARK_MOBILE_PHONE = "mobile_phone";
     public static final String MARK_REFERENCE = "reference";
-    public static final String MARK_EMAIL = "mail";   
+    public static final String MARK_EMAIL = "email";   
     public static final String MARK_USER_TITLES = "civility";
     public static final String MARK_TICKET_TYPES = "ticket_type";
     public static final String MARK_TICKET_DOMAINS = "ticket_domain";
