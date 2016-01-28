@@ -11,7 +11,7 @@
     <artifactId>module-provider-ticketing</artifactId>
     <packaging>lutece-plugin</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Provider Ticketing</name>
+    <name>Lutece notifygru ticketing module</name>
 
     <repositories>
         <repository>
@@ -55,9 +55,9 @@
     </properties>
     
     <scm>
-        <connection>scm:git:https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</connection>
-        <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</developerConnection>
-        <url>https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</url>
+        <connection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</developerConnection>
+        <url>https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</url>
       <tag>HEAD</tag>
   </scm>
     <reporting>
