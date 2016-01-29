@@ -8,12 +8,20 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.paris.lutece.plugins</groupId>
-    <artifactId>module-provider-ticketing</artifactId>
+    <artifactId>module-notifygru-ticketing</artifactId>
     <packaging>lutece-plugin</packaging>
     <version>1.0.0-SNAPSHOT</version>
-    <name>Provider Ticketing</name>
+    <name>Lutece notifygru ticketing module</name>
 
     <repositories>
+        <repository>
+            <id>luteceSnapshot</id>
+            <name>luteceSnapshot</name>
+            <url>http://dev.lutece.paris.fr/snapshot_repository</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <repository>
             <id>lutece</id>
             <name>luteceRepository</name>
@@ -23,52 +31,37 @@
     </repositories>
 
     <dependencies>
-     
-       <dependency>
+        <dependency>
             <groupId>fr.paris.lutece</groupId>
             <artifactId>lutece-core</artifactId>
             <version>[5.0.0,)</version>
             <type>lutece-core</type>
         </dependency>   
-     
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>module-workflow-notifygru</artifactId>
             <version>[1.0.0-SNAPSHOT,)</version>
             <type>lutece-plugin</type>
         </dependency>
-        
-           <dependency>
+        <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>plugin-ticketing</artifactId>
             <version>[1.0.0-SNAPSHOT,)</version>
             <type>lutece-plugin</type>
         </dependency>
-        
-      
     </dependencies>
    
     <properties>
-   <componentName>Module Provider Ticketing </componentName>
+        <componentName>Module Provider Ticketing </componentName>
         <jiraProjectName>MPTCKETING</jiraProjectName>
         <jiraComponentId>12926</jiraComponentId>
     </properties>
     
     <scm>
-        <connection>scm:git:https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</connection>
-        <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</developerConnection>
-        <url>https://github.com/lutece-secteur-public/gru-module-provider-ticketing.git</url>
-      <tag>HEAD</tag>
-  </scm>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <configuration>
-                    <configLocation>config/sun_checks.xml</configLocation>
-                </configuration>
-            </plugin>
-        </plugins>
-    </reporting>
+        <connection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</connection>
+        <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</developerConnection>
+        <url>https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
 </project>
