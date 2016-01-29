@@ -39,7 +39,7 @@ package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
  * NotifyDirectoryConstants
  *
  */
-public final class ProviderTicketingConstants
+public final class Constants
 {
    
     // MARKS 
@@ -56,8 +56,10 @@ public final class ProviderTicketingConstants
     public static final String MARK_TICKET_CATEGORIES = "ticket_categorie";
     public static final String MARK_CONTACT_MODES = "contact_mode";
     public static final String MARK_COMMENT= "comment";
-    public static final String MARK_LIST_FORM= "list_form";
+    public static final String MARK_URL_COMPLETED= "url_completed";
+    public static final String MARK_USER_MESSAGE= "user_message";
     
+    public static final String MARK_LIST_FORM= "list_form";    
     public static final String MARK_TICKET = "ticket"; 
     public static final String MARK_LIST_MARKER= "list_markers";
     
@@ -65,7 +67,7 @@ public final class ProviderTicketingConstants
     /**
      * Private constructor
      */
-    private ProviderTicketingConstants(  )
+    private Constants(  )
     {
     }
 }

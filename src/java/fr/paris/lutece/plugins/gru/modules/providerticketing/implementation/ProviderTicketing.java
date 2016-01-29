@@ -53,8 +53,6 @@ import fr.paris.lutece.plugins.ticketing.business.UserTitle;
 import fr.paris.lutece.plugins.ticketing.business.UserTitleHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.utils.constants.NotifyGruConstants;
-
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -130,20 +128,20 @@ public class ProviderTicketing extends AbstractServiceProvider {
         Map<String, Object> model = new HashMap<String, Object>();
         _ticket = new Ticket();
 
-        model.put(ProviderTicketingConstants.MARK_GUID, "");
-        model.put(ProviderTicketingConstants.MARK_FIRSTNAME, "");
-        model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
-        model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
-        model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
-        model.put(ProviderTicketingConstants.MARK_REFERENCE, "");
-        model.put(ProviderTicketingConstants.MARK_EMAIL, "");
-        model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
-        model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
-        model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, "");
-        model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
-        model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");
-        model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
-        model.put(ProviderTicketingConstants.MARK_COMMENT, "");
+        model.put(Constants.MARK_GUID, "");
+        model.put(Constants.MARK_FIRSTNAME, "");
+        model.put(Constants.MARK_LASTNAME, "");
+        model.put(Constants.MARK_FIXED_PHONE, "");
+        model.put(Constants.MARK_MOBILE_PHONE, "");
+        model.put(Constants.MARK_REFERENCE, "");
+        model.put(Constants.MARK_EMAIL, "");
+        model.put(Constants.MARK_TICKET, _ticket);
+        model.put(Constants.MARK_USER_TITLES, "");
+        model.put(Constants.MARK_TICKET_TYPES, "");
+        model.put(Constants.MARK_TICKET_DOMAINS, "");
+        model.put(Constants.MARK_TICKET_CATEGORIES, "");
+        model.put(Constants.MARK_CONTACT_MODES, "");
+        model.put(Constants.MARK_COMMENT, "");
 
      /*   List<FormCategoryTicket> lformModel = new ArrayList<>();
         List<TicketForm> lform = TicketFormHome.getTicketFormsList();
@@ -160,7 +158,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
             lformModel.add(formModel);
         }
 
-        model.put(ProviderTicketingConstants.MARK_LIST_FORM, lformModel);  */
+        model.put(Constants.MARK_LIST_FORM, lformModel);  */
 
         @SuppressWarnings("deprecation")
         HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl(AppTemplateService.getTemplate(
@@ -172,6 +170,26 @@ public class ProviderTicketing extends AbstractServiceProvider {
 
     }
 
+    private Map<String, Object> buildMarker (Ticket ticket) {
+        
+      Map<String, Object> model = new HashMap<String, Object>();
+           model.put(Constants.MARK_GUID, _ticket.getGuid());
+            model.put(Constants.MARK_FIRSTNAME, _ticket.getFirstname());
+            model.put(Constants.MARK_LASTNAME, _ticket.getLastname());
+            model.put(Constants.MARK_FIXED_PHONE, _ticket.getFixedPhoneNumber());
+            model.put(Constants.MARK_MOBILE_PHONE, _ticket.getMobilePhoneNumber());
+            model.put(Constants.MARK_EMAIL, _ticket.getEmail());
+            model.put(Constants.MARK_REFERENCE, _ticket.getReference());
+            model.put(Constants.MARK_TICKET, _ticket);
+            model.put(Constants.MARK_USER_TITLES, _ticket.getUserTitle());
+            model.put(Constants.MARK_TICKET_TYPES, _ticket.getTicketType());
+            model.put(Constants.MARK_TICKET_DOMAINS, _ticket.getTicketDomain());
+            model.put(Constants.MARK_TICKET_CATEGORIES, _ticket.getTicketCategory());
+            model.put(Constants.MARK_CONTACT_MODES, _ticket.getContactMode());
+            model.put(Constants.MARK_COMMENT, _ticket.getTicketComment());            
+            return model;
+    }
+    
     @Override
     public Map<String, Object> getInfos(int nIdResource) {
         Map<String, Object> model = new HashMap<String, Object>();
@@ -194,20 +212,20 @@ public class ProviderTicketing extends AbstractServiceProvider {
 
             ContactMode typeContactMode = ContactModeHome.findByPrimaryKey(_ticket.getIdContactMode());
 
-            model.put(ProviderTicketingConstants.MARK_GUID, _ticket.getGuid());
-            model.put(ProviderTicketingConstants.MARK_FIRSTNAME, _ticket.getFirstname());
-            model.put(ProviderTicketingConstants.MARK_LASTNAME, _ticket.getLastname());
-            model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, _ticket.getFixedPhoneNumber());
-            model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, _ticket.getMobilePhoneNumber());
-            model.put(ProviderTicketingConstants.MARK_EMAIL, _ticket.getEmail());
-            model.put(ProviderTicketingConstants.MARK_REFERENCE, _ticket.getReference());
-            model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
-            model.put(ProviderTicketingConstants.MARK_USER_TITLES, _ticket.getUserTitle());
-            model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, _ticket.getTicketType());
-            model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, _ticket.getTicketDomain());
-            model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, _ticket.getTicketCategory());
-            model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, _ticket.getContactMode());
-            model.put(ProviderTicketingConstants.MARK_COMMENT, _ticket.getTicketComment());
+            model.put(Constants.MARK_GUID, _ticket.getGuid());
+            model.put(Constants.MARK_FIRSTNAME, _ticket.getFirstname());
+            model.put(Constants.MARK_LASTNAME, _ticket.getLastname());
+            model.put(Constants.MARK_FIXED_PHONE, _ticket.getFixedPhoneNumber());
+            model.put(Constants.MARK_MOBILE_PHONE, _ticket.getMobilePhoneNumber());
+            model.put(Constants.MARK_EMAIL, _ticket.getEmail());
+            model.put(Constants.MARK_REFERENCE, _ticket.getReference());
+            model.put(Constants.MARK_TICKET, _ticket);
+            model.put(Constants.MARK_USER_TITLES, _ticket.getUserTitle());
+            model.put(Constants.MARK_TICKET_TYPES, _ticket.getTicketType());
+            model.put(Constants.MARK_TICKET_DOMAINS, _ticket.getTicketDomain());
+            model.put(Constants.MARK_TICKET_CATEGORIES, _ticket.getTicketCategory());
+            model.put(Constants.MARK_CONTACT_MODES, _ticket.getContactMode());
+            model.put(Constants.MARK_COMMENT, _ticket.getTicketComment());
 
          /*   TicketForm form = null;
             if (typeCategory.getIdTicketForm() > 0) {
@@ -231,34 +249,20 @@ public class ProviderTicketing extends AbstractServiceProvider {
             }  */
 
         } else {
-            model.put(ProviderTicketingConstants.MARK_GUID, "");
-            model.put(ProviderTicketingConstants.MARK_FIRSTNAME, "");
-            model.put(ProviderTicketingConstants.MARK_LASTNAME, "");
-            model.put(ProviderTicketingConstants.MARK_FIXED_PHONE, "");
-            model.put(ProviderTicketingConstants.MARK_MOBILE_PHONE, "");
-            model.put(ProviderTicketingConstants.MARK_REFERENCE, "");
-            model.put(ProviderTicketingConstants.MARK_EMAIL, "");
-            model.put(ProviderTicketingConstants.MARK_TICKET, _ticket);
-            model.put(ProviderTicketingConstants.MARK_USER_TITLES, "");
-            model.put(ProviderTicketingConstants.MARK_TICKET_TYPES, "");
-            model.put(ProviderTicketingConstants.MARK_TICKET_DOMAINS, "");
-            model.put(ProviderTicketingConstants.MARK_TICKET_CATEGORIES, "");
-            model.put(ProviderTicketingConstants.MARK_CONTACT_MODES, "");
-            model.put(ProviderTicketingConstants.MARK_COMMENT, "");
-
-         /*   List<FormCategoryTicket> lformModel = new ArrayList<>();
-            List<TicketForm> lform = TicketFormHome.getTicketFormsList();
-
-            for (TicketForm form : lform) {
-
-                List<Entry> listEntryFirstLevel = getFilter(form.getIdForm());
-                for (Entry entity : listEntryFirstLevel) {
-                    // listEntryFirstLevel1.getPosition()
-
-                    model.put("formSol_" + form.getIdForm() + "_entity_" + entity.getPosition(), "");
-                }
-
-            }  */
+            model.put(Constants.MARK_GUID, "");
+            model.put(Constants.MARK_FIRSTNAME, "");
+            model.put(Constants.MARK_LASTNAME, "");
+            model.put(Constants.MARK_FIXED_PHONE, "");
+            model.put(Constants.MARK_MOBILE_PHONE, "");
+            model.put(Constants.MARK_REFERENCE, "");
+            model.put(Constants.MARK_EMAIL, "");
+            model.put(Constants.MARK_TICKET, _ticket);
+            model.put(Constants.MARK_USER_TITLES, "");
+            model.put(Constants.MARK_TICKET_TYPES, "");
+            model.put(Constants.MARK_TICKET_DOMAINS, "");
+            model.put(Constants.MARK_TICKET_CATEGORIES, "");
+            model.put(Constants.MARK_CONTACT_MODES, "");
+            model.put(Constants.MARK_COMMENT, "");       
 
         }
 
@@ -289,11 +293,7 @@ public class ProviderTicketing extends AbstractServiceProvider {
        
     }
 
-    private String getI18nMarker(String strkey) {
     
-         return new String(I18nService.getLocalizedString(NotifyGruConstants.TITLE_NOTIFY, Locale.getDefault()));
-        
-    }
     @Override
     public int getOptionalDemandIdType(int nIdResource) {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
