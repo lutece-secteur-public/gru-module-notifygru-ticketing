@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
+package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
 
 /**

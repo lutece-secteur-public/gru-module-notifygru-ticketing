@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.plugins.gru.modules.providerticketing.implementation;
+package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation;
@@ -43,9 +43,9 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
  * ProviderTicketingPlugin
  *
  */
-public class ProviderTicketingPlugin extends PluginDefaultImplementation
+public class NotifyGruTicketingPlugin extends PluginDefaultImplementation
 {
-    public static final String PLUGIN_NAME = "notifygru-providerticketing";
+    public static final String PLUGIN_NAME = "notifygru-ticketing";
     public static final String BEAN_TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
 
     /**

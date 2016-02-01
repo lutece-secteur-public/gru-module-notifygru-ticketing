@@ -52,7 +52,7 @@
     </dependencies>
    
     <properties>
-        <componentName>Module Provider Ticketing </componentName>
+        <componentName>Module NotifyGru Ticketing </componentName>
         <jiraProjectName>MPTCKETING</jiraProjectName>
         <jiraComponentId>12926</jiraComponentId>
     </properties>
