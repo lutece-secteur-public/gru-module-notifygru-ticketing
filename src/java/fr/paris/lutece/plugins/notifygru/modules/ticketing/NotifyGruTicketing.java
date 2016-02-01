@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
-
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
@@ -43,6 +42,7 @@ import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistorySer
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
 import java.util.Locale;
@@ -90,23 +90,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider {
     @Override
     public String getInfosHelp(Locale local) {
 
-        Map<String, Object> model = new HashMap<String, Object>();
         _ticket = new Ticket();
 
-        model.put(Constants.MARK_GUID, "");
-        model.put(Constants.MARK_FIRSTNAME, "");
-        model.put(Constants.MARK_LASTNAME, "");
-        model.put(Constants.MARK_FIXED_PHONE, "");
-        model.put(Constants.MARK_MOBILE_PHONE, "");
-        model.put(Constants.MARK_REFERENCE, "");
-        model.put(Constants.MARK_EMAIL, "");
-        model.put(Constants.MARK_TICKET, _ticket);
-        model.put(Constants.MARK_USER_TITLES, "");
-        model.put(Constants.MARK_TICKET_TYPES, "");
-        model.put(Constants.MARK_TICKET_DOMAINS, "");
-        model.put(Constants.MARK_TICKET_CATEGORIES, "");
-        model.put(Constants.MARK_CONTACT_MODES, "");
-        model.put(Constants.MARK_COMMENT, "");
+        Map<String, Object> model = buildModelNotifyGruTicketing(_ticket);
 
         @SuppressWarnings("deprecation")
         HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl(AppTemplateService.getTemplate(
@@ -117,8 +103,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider {
         return strResourceInfo;
 
     }
-/**
- */
+
+    /**
+     */
     private Map<String, Object> buildModelNotifyGruTicketing(Ticket ticket) {
 
         Map<String, Object> model = new HashMap<String, Object>();
@@ -137,7 +124,15 @@ public class NotifyGruTicketing extends AbstractServiceProvider {
         model.put(Constants.MARK_TICKET_CATEGORIES, (ticket.getTicketCategory() != null) ? ticket.getTicketCategory() : "");
         model.put(Constants.MARK_CONTACT_MODES, (ticket.getContactMode() != null) ? ticket.getContactMode() : "");
         model.put(Constants.MARK_COMMENT, (ticket.getTicketComment() != null) ? ticket.getTicketComment() : "");
+        String strUrlCompleted = AppPropertiesService.getProperty(Constants.PROPERTIES_URL_COMPLETE);
+        model.put(Constants.MARK_URL_COMPLETED, ((ticket.getGuid() != null) ? parseUrlCompleted(strUrlCompleted, ticket.getGuid()) : ""));
+        model.put(Constants.MARK_USER_MESSAGE, "Message : User message");
         return model;
+    }
+
+    private String parseUrlCompleted(String strUrl, String strGuid) {        
+        String strUrlwithGuid = strUrl.replace("${" + Constants.MARK_GUID + "}", strGuid);
+        return strUrlwithGuid;
     }
 
     @Override
@@ -151,9 +146,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider {
             int nIdTicket = resourceHistory.getIdResource();
             _ticket = (TicketHome.findByPrimaryKey(nIdTicket) != null) ? TicketHome.findByPrimaryKey(nIdTicket) : (new Ticket());
             model = buildModelNotifyGruTicketing(_ticket);
-            
+
         } else {
-              model = buildModelNotifyGruTicketing(new Ticket());
+            model = buildModelNotifyGruTicketing(new Ticket());
 
         }
 
