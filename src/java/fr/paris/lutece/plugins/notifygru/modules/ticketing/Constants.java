@@ -41,7 +41,6 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing;
  */
 public final class Constants
 {
-   
     // MARKS 
     public static final String MARK_GUID = "identification_guid";
     public static final String MARK_FIRSTNAME = "firstname";
@@ -49,26 +48,20 @@ public final class Constants
     public static final String MARK_FIXED_PHONE = "fixed_phone";
     public static final String MARK_MOBILE_PHONE = "mobile_phone";
     public static final String MARK_REFERENCE = "reference";
-    public static final String MARK_EMAIL = "email";   
+    public static final String MARK_EMAIL = "email";
     public static final String MARK_USER_TITLES = "civility";
     public static final String MARK_TICKET_TYPES = "ticket_type";
     public static final String MARK_TICKET_DOMAINS = "ticket_domain";
     public static final String MARK_TICKET_CATEGORIES = "ticket_categorie";
     public static final String MARK_CONTACT_MODES = "contact_mode";
-    public static final String MARK_COMMENT= "comment";
-    public static final String MARK_URL_COMPLETED= "url_completed";
-    public static final String MARK_USER_MESSAGE= "user_message";
-    
-    public static final String MARK_LIST_FORM= "list_form";    
-    public static final String MARK_TICKET = "ticket"; 
-    public static final String MARK_LIST_MARKER= "list_markers";
-   
-    
-    public static final String PROPERTIES_URL_COMPLETE= "notifygru-ticketing.url_completed";
-    
-   
-    
-    
+    public static final String MARK_COMMENT = "comment";
+    public static final String MARK_URL_COMPLETED = "url_completed";
+    public static final String MARK_USER_MESSAGE = "user_message";
+    public static final String MARK_LIST_FORM = "list_form";
+    public static final String MARK_TICKET = "ticket";
+    public static final String MARK_LIST_MARKER = "list_markers";
+    public static final String PROPERTIES_URL_COMPLETE = "notifygru-ticketing.url_completed";
+
     /**
      * Private constructor
      */

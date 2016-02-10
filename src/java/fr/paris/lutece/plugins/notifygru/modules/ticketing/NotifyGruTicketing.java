@@ -44,161 +44,225 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
 
-public class NotifyGruTicketing extends AbstractServiceProvider {
 
+
+/**
+ * The Class NotifyGruTicketing.
+ */
+public class NotifyGruTicketing extends AbstractServiceProvider
+{
+    
+    /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
+    
+    /** The _plugin. */
+    private static Plugin _plugin = PluginService.getPlugin( TicketingPlugin.PLUGIN_NAME );
+    
+    /** The _resource history service. */
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-
+    
+    /** The _ticket. */
     private Ticket _ticket;
 
+    /** The _str status texte. */
     //config provider  
     private String _strStatusTexte;
-    private static Plugin _plugin = PluginService.getPlugin(TicketingPlugin.PLUGIN_NAME);
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getUserEmail(int)
+     */
     @Override
-    public String getUserEmail(int nIdResource) {
+    public String getUserEmail( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
-        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
-
-        int nIdTicket = resourceHistory.getIdResource();
-        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
-
-        return _ticket.getEmail();
+        return _ticket.getEmail(  );
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getUserGuid(int)
+     */
     @Override
-    public String getUserGuid(int nIdResource) {
+    public String getUserGuid( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
-        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
-
-        int nIdTicket = resourceHistory.getIdResource();
-        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
-
-        return _ticket.getGuid();
-
+        return _ticket.getGuid(  );
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getInfosHelp(java.util.Locale)
+     */
     @Override
-    public String getInfosHelp(Locale local) {
+    public String getInfosHelp( Locale local )
+    {
+        _ticket = new Ticket(  );
 
-        _ticket = new Ticket();
-
-        Map<String, Object> model = buildModelNotifyGruTicketing(_ticket);
-
-        @SuppressWarnings("deprecation")
-        HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl(AppTemplateService.getTemplate(
-                TEMPLATE_FREEMARKER_LIST, local, model).getHtml(), local, model);
-
-        String strResourceInfo = t.getHtml();
+        Map<String, Object> model = buildModelNotifyGruTicketing( _ticket );
+        @SuppressWarnings( "deprecation" )
+        HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl( AppTemplateService.getTemplate( 
+                    TEMPLATE_FREEMARKER_LIST, local, model ).getHtml(  ), local, model );
+        String strResourceInfo = t.getHtml(  );
 
         return strResourceInfo;
-
     }
 
     /**
+     * Builds the model notify gru ticketing.
+     *
+     * @param ticket the ticket
+     * @return the map
      */
-    private Map<String, Object> buildModelNotifyGruTicketing(Ticket ticket) {
+    private Map<String, Object> buildModelNotifyGruTicketing( Ticket ticket )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
+        model.put( Constants.MARK_GUID, ( ticket.getGuid(  ) != null ) ? ticket.getGuid(  ) : "" );
+        model.put( Constants.MARK_FIRSTNAME, ( ticket.getFirstname(  ) != null ) ? ticket.getFirstname(  ) : "" );
+        model.put( Constants.MARK_LASTNAME, ( ticket.getLastname(  ) != null ) ? ticket.getLastname(  ) : "" );
+        model.put( Constants.MARK_FIXED_PHONE,
+            ( ticket.getFixedPhoneNumber(  ) != null ) ? ticket.getFixedPhoneNumber(  ) : "" );
+        model.put( Constants.MARK_MOBILE_PHONE,
+            ( ticket.getMobilePhoneNumber(  ) != null ) ? ticket.getMobilePhoneNumber(  ) : "" );
+        model.put( Constants.MARK_EMAIL, ( ticket.getEmail(  ) != null ) ? ticket.getEmail(  ) : "" );
+        model.put( Constants.MARK_REFERENCE, ( ticket.getReference(  ) != null ) ? ticket.getReference(  ) : "" );
+        model.put( Constants.MARK_TICKET, ticket );
+        model.put( Constants.MARK_USER_TITLES, ( ticket.getUserTitle(  ) != null ) ? ticket.getUserTitle(  ) : "" );
+        model.put( Constants.MARK_TICKET_TYPES, ( ticket.getTicketType(  ) != null ) ? ticket.getTicketType(  ) : "" );
+        model.put( Constants.MARK_TICKET_DOMAINS,
+            ( ticket.getTicketDomain(  ) != null ) ? ticket.getTicketDomain(  ) : "" );
+        model.put( Constants.MARK_TICKET_CATEGORIES,
+            ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ) : "" );
+        model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
+        model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
 
-        Map<String, Object> model = new HashMap<String, Object>();
+        String strUrlCompleted = AppPropertiesService.getProperty( Constants.PROPERTIES_URL_COMPLETE );
+        model.put( Constants.MARK_URL_COMPLETED,
+            ( ( ticket.getGuid(  ) != null ) ? parseUrlCompleted( strUrlCompleted, ticket.getGuid(  ) ) : "" ) );
+        model.put( Constants.MARK_USER_MESSAGE, "Message : User message" );
 
-        model.put(Constants.MARK_GUID, (ticket.getGuid() != null) ? ticket.getGuid() : "");
-        model.put(Constants.MARK_FIRSTNAME, (ticket.getFirstname() != null) ? ticket.getFirstname() : "");
-        model.put(Constants.MARK_LASTNAME, (ticket.getLastname() != null) ? ticket.getLastname() : "");
-        model.put(Constants.MARK_FIXED_PHONE, (ticket.getFixedPhoneNumber() != null) ? ticket.getFixedPhoneNumber() : "");
-        model.put(Constants.MARK_MOBILE_PHONE, (ticket.getMobilePhoneNumber() != null) ? ticket.getMobilePhoneNumber() : "");
-        model.put(Constants.MARK_EMAIL, (ticket.getEmail() != null) ? ticket.getEmail() : "");
-        model.put(Constants.MARK_REFERENCE, (ticket.getReference() != null) ? ticket.getReference() : "");
-        model.put(Constants.MARK_TICKET, ticket);
-        model.put(Constants.MARK_USER_TITLES, (ticket.getUserTitle() != null) ? ticket.getUserTitle() : "");
-        model.put(Constants.MARK_TICKET_TYPES, (ticket.getTicketType() != null) ? ticket.getTicketType() : "");
-        model.put(Constants.MARK_TICKET_DOMAINS, (ticket.getTicketDomain() != null) ? ticket.getTicketDomain() : "");
-        model.put(Constants.MARK_TICKET_CATEGORIES, (ticket.getTicketCategory() != null) ? ticket.getTicketCategory() : "");
-        model.put(Constants.MARK_CONTACT_MODES, (ticket.getContactMode() != null) ? ticket.getContactMode() : "");
-        model.put(Constants.MARK_COMMENT, (ticket.getTicketComment() != null) ? ticket.getTicketComment() : "");
-        String strUrlCompleted = AppPropertiesService.getProperty(Constants.PROPERTIES_URL_COMPLETE);
-        model.put(Constants.MARK_URL_COMPLETED, ((ticket.getGuid() != null) ? parseUrlCompleted(strUrlCompleted, ticket.getGuid()) : ""));
-        model.put(Constants.MARK_USER_MESSAGE, "Message : User message");
         return model;
     }
 
-    private String parseUrlCompleted(String strUrl, String strGuid) {        
-        String strUrlwithGuid = strUrl.replace("${" + Constants.MARK_GUID + "}", strGuid);
+    /**
+     * Parses the url completed.
+     *
+     * @param strUrl the str url
+     * @param strGuid the str guid
+     * @return the string
+     */
+    private String parseUrlCompleted( String strUrl, String strGuid )
+    {
+        String strUrlwithGuid = strUrl.replace( "${" + Constants.MARK_GUID + "}", strGuid );
+
         return strUrlwithGuid;
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getInfos(int)
+     */
     @Override
-    public Map<String, Object> getInfos(int nIdResource) {
-        Map<String, Object> model = new HashMap<String, Object>();
+    public Map<String, Object> getInfos( int nIdResourceHistory )
+    {
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
-        if (nIdResource > 0) {
+        if ( nIdResourceHistory > 0 )
+        {
+            ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
 
-            ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
-
-            int nIdTicket = resourceHistory.getIdResource();
-            _ticket = (TicketHome.findByPrimaryKey(nIdTicket) != null) ? TicketHome.findByPrimaryKey(nIdTicket) : (new Ticket());
-            model = buildModelNotifyGruTicketing(_ticket);
-
-        } else {
-            model = buildModelNotifyGruTicketing(new Ticket());
-
+            int nIdTicket = resourceHistory.getIdResource(  );
+            _ticket = ( TicketHome.findByPrimaryKey( nIdTicket ) != null ) ? TicketHome.findByPrimaryKey( nIdTicket )
+                                                                           : ( new Ticket(  ) );
+            model = buildModelNotifyGruTicketing( _ticket );
+        }
+        else
+        {
+            model = buildModelNotifyGruTicketing( new Ticket(  ) );
         }
 
         return model;
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getOptionalMobilePhoneNumber(int)
+     */
     @Override
-    public String getOptionalMobilePhoneNumber(int nIdResource) {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
-        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+    public String getOptionalMobilePhoneNumber( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        int nIdTicket = resourceHistory.getIdResource();
-        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
-
-        return _ticket.getMobilePhoneNumber();
+        return _ticket.getMobilePhoneNumber(  );
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getOptionalDemandId(int)
+     */
     @Override
-    public int getOptionalDemandId(int nIdResource) {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
-        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+    public int getOptionalDemandId( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        int nIdTicket = resourceHistory.getIdResource();
-        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
-
-        return _ticket.getId();
-
+        return _ticket.getId(  );
     }
 
+    /* (non-Javadoc)
+     * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getOptionalDemandIdType(int)
+     */
     @Override
-    public int getOptionalDemandIdType(int nIdResource) {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey(nIdResource);
+    public int getOptionalDemandIdType( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+
         // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        int nIdTicket = resourceHistory.getIdResource();
-        _ticket = TicketHome.findByPrimaryKey(nIdTicket);
-
-        return _ticket.getIdTicketType();
+        return _ticket.getIdTicketType(  );
     }
 
-    public Boolean isIdDemandTypeAvailable(int nIdResource) {
+    /**
+     * Checks if is id demand type available.
+     *
+     * @param nIdResourceHistory the n id resource history
+     * @return the boolean
+     */
+    public Boolean isIdDemandTypeAvailable( int nIdResourceHistory )
+    {
         return true;
     }
 
-    public String getStatusTexte() {
+    /**
+     * Gets the status texte.
+     *
+     * @return the status texte
+     */
+    public String getStatusTexte(  )
+    {
         return this._strStatusTexte;
     }
 
-    public void setStatusTexte(String _strStatusTexte) {
-        this._strStatusTexte = _strStatusTexte;
+    /**
+     * Sets the status texte.
+     *
+     * @param strStatusTexte the new status texte
+     */
+    public void setStatusTexte( String strStatusTexte )
+    {
+        this._strStatusTexte = strStatusTexte;
     }
-
 }
