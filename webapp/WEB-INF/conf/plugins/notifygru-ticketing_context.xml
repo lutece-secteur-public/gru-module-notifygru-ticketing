@@ -14,9 +14,9 @@
        <bean id="notifygru-ticketing.ProviderService" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.NotifyGruTicketing"
  		p:key="notifygru-ticketing.ProviderService"
  		p:titleI18nKey="module.notifygru.ticketing.module.providerticketing"
-                p:beanName="notifygru-ticketing.ProviderService" 
-             
+                p:beanName="notifygru-ticketing.ProviderService"             
             />
         
-           
+           <bean id="notifygru-ticketing.DefaultDemandTypeService" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.services.DefaultDemandTypeService" />
+        	
 </beans>

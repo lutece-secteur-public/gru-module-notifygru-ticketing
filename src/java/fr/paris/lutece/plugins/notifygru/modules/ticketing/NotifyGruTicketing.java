@@ -37,7 +37,7 @@ import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.IDemandTypeService;
+import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -63,7 +63,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     
     /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
-    private static final String BEAN_SERVICE_DEMAND_TYPE = "workflow-notifygru.DefaultDemandTypeService";
+    private static final String BEAN_SERVICE_DEMAND_TYPE = "notifygru-ticketing.DefaultDemandTypeService";
     
     /** The _plugin. */
     private static Plugin _plugin = PluginService.getPlugin( TicketingPlugin.PLUGIN_NAME );
@@ -255,7 +255,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         
         IDemandTypeService beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
         
-        return beanDemandTypeService.getDemandType( _ticket.getIdTicketType(  ) );
+        return beanDemandTypeService.getDemandType( _ticket );
     }
 
    
