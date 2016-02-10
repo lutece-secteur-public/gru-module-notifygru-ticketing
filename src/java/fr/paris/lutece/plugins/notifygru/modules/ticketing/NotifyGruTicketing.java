@@ -37,10 +37,12 @@ import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
+import fr.paris.lutece.plugins.workflow.modules.notifygru.service.IDemandTypeService;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -61,6 +63,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     
     /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
+    private static final String BEAN_SERVICE_DEMAND_TYPE = "workflow-notifygru.DefaultDemandTypeService";
     
     /** The _plugin. */
     private static Plugin _plugin = PluginService.getPlugin( TicketingPlugin.PLUGIN_NAME );
@@ -219,6 +222,26 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 
         return _ticket.getId(  );
     }
+    
+      @Override
+    public String getDemandReference( int nIdResourceHistory ) {
+         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+
+        return _ticket.getReference();
+    
+    }
+    
+     @Override
+    public String getCustomerId( int nIdResourceHistory ) {
+         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+
+        return _ticket.getCustomerId();
+    
+    }
 
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getOptionalDemandIdType(int)
@@ -226,43 +249,18 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public int getOptionalDemandIdType( int nIdResourceHistory )
     {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-
-        // _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ), pluginTicketing );
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );       
         int nIdTicket = resourceHistory.getIdResource(  );
         _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-
-        return _ticket.getIdTicketType(  );
+        
+        IDemandTypeService beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
+        
+        return beanDemandTypeService.getDemandType( _ticket.getIdTicketType(  ) );
     }
 
-    /**
-     * Checks if is id demand type available.
-     *
-     * @param nIdResourceHistory the n id resource history
-     * @return the boolean
-     */
-    public Boolean isIdDemandTypeAvailable( int nIdResourceHistory )
-    {
-        return true;
-    }
+   
 
-    /**
-     * Gets the status texte.
-     *
-     * @return the status texte
-     */
-    public String getStatusTexte(  )
-    {
-        return this._strStatusTexte;
-    }
+   
 
-    /**
-     * Sets the status texte.
-     *
-     * @param strStatusTexte the new status texte
-     */
-    public void setStatusTexte( String strStatusTexte )
-    {
-        this._strStatusTexte = strStatusTexte;
-    }
+  
 }
