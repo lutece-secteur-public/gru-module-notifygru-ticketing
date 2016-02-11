@@ -33,25 +33,30 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
+import fr.paris.lutece.plugins.genericattributes.business.Response;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
+import fr.paris.lutece.plugins.ticketing.business.TicketCriticality;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import java.text.SimpleDateFormat;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
+import org.apache.commons.lang.StringUtils;
 
 
 
@@ -228,6 +233,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
          ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
         _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+        
+          AppLogService.debug("\n\n\n\n TICKET TO STRING \n\n\n"+_ticket.getEmail());
+         
 
         return _ticket.getReference();
     
@@ -260,6 +268,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 
    
 
+    
    
 
   

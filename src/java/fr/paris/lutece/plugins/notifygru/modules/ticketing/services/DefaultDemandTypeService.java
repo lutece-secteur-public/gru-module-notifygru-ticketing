@@ -36,6 +36,7 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing.services;
 
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.ServiceConfigTaskForm;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
@@ -58,6 +59,9 @@ public class DefaultDemandTypeService implements IDemandTypeService
         if ( ticket!=null && ( ( nidType == 1 ) || ( nidType == 2 ) || ( nidType == 3 ) || ( nidType == 4 ) ) )
         {
             String strDemandType = AppPropertiesService.getProperty( PARAMS_CONFIG + nidType );
+            
+               AppLogService.info(" MAPPING ID DEMAND TYPE strDemandType \n\n\n\n"+strDemandType+"\n\n\n\n FIN MAPPING ID DEMAND TYPE strDemandType");
+               AppLogService.info(" INT MAPPING ID DEMAND TYPE strDemandType \n\n\n\n"+ServiceConfigTaskForm.getNumbertoString( strDemandType )+"\n\n\n\n FIN MAPPING ID DEMAND TYPE strDemandType");
 
             return ServiceConfigTaskForm.getNumbertoString( strDemandType );
         }
