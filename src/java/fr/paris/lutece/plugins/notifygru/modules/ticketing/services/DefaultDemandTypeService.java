@@ -55,14 +55,16 @@ public class DefaultDemandTypeService implements IDemandTypeService
     public int getDemandType( Ticket ticket )
     {
         int nidType = 0;
+        
+        if( ticket != null ) 
+        {
+        nidType = ticket.getIdTicketType( );
+        }
        
         if ( ticket!=null && ( ( nidType == 1 ) || ( nidType == 2 ) || ( nidType == 3 ) || ( nidType == 4 ) ) )
         {
-            String strDemandType = AppPropertiesService.getProperty( PARAMS_CONFIG + nidType );
-            
-               AppLogService.info(" MAPPING ID DEMAND TYPE strDemandType \n\n\n\n"+strDemandType+"\n\n\n\n FIN MAPPING ID DEMAND TYPE strDemandType");
-               AppLogService.info(" INT MAPPING ID DEMAND TYPE strDemandType \n\n\n\n"+ServiceConfigTaskForm.getNumbertoString( strDemandType )+"\n\n\n\n FIN MAPPING ID DEMAND TYPE strDemandType");
-
+            String strDemandType = AppPropertiesService.getProperty( PARAMS_CONFIG + nidType );        
+              
             return ServiceConfigTaskForm.getNumbertoString( strDemandType );
         }
 
