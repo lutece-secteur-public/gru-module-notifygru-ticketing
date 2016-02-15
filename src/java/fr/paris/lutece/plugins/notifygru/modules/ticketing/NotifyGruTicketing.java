@@ -33,13 +33,11 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
-import fr.paris.lutece.plugins.genericattributes.business.Response;
+import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
-import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
-import fr.paris.lutece.plugins.ticketing.business.TicketCriticality;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -49,15 +47,12 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import java.text.SimpleDateFormat;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.inject.Inject;
-import org.apache.commons.lang.StringUtils;
-
 
 
 /**
@@ -65,24 +60,17 @@ import org.apache.commons.lang.StringUtils;
  */
 public class NotifyGruTicketing extends AbstractServiceProvider
 {
-    
     /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
     private static final String BEAN_SERVICE_DEMAND_TYPE = "notifygru-ticketing.DefaultDemandTypeService";
-    
+
     /** The _plugin. */
     private static Plugin _plugin = PluginService.getPlugin( TicketingPlugin.PLUGIN_NAME );
-    
+    private static IDemandTypeService _beanDemandTypeService; 
+
     /** The _resource history service. */
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-    
-    /** The _ticket. */
-    private Ticket _ticket;
-
-    /** The _str status texte. */
-    //config provider  
-    private String _strStatusTexte;
 
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getUserEmail(int)
@@ -92,9 +80,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return _ticket.getEmail(  );
+        return ticket.getEmail(  );
     }
 
     /* (non-Javadoc)
@@ -105,9 +93,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return _ticket.getGuid(  );
+        return ticket.getGuid(  );
     }
 
     /* (non-Javadoc)
@@ -116,9 +104,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public String getInfosHelp( Locale local )
     {
-        _ticket = new Ticket(  );
+        Ticket ticket = new Ticket(  );
 
-        Map<String, Object> model = buildModelNotifyGruTicketing( _ticket );
+        Map<String, Object> model = buildModelNotifyGruTicketing( ticket );
         @SuppressWarnings( "deprecation" )
         HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl( AppTemplateService.getTemplate( 
                     TEMPLATE_FREEMARKER_LIST, local, model ).getHtml(  ), local, model );
@@ -190,9 +178,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
             ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
 
             int nIdTicket = resourceHistory.getIdResource(  );
-            _ticket = ( TicketHome.findByPrimaryKey( nIdTicket ) != null ) ? TicketHome.findByPrimaryKey( nIdTicket )
-                                                                           : ( new Ticket(  ) );
-            model = buildModelNotifyGruTicketing( _ticket );
+            Ticket ticket = ( TicketHome.findByPrimaryKey( nIdTicket ) != null )
+                ? TicketHome.findByPrimaryKey( nIdTicket ) : ( new Ticket(  ) );
+            model = buildModelNotifyGruTicketing( ticket );
         }
         else
         {
@@ -210,9 +198,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return _ticket.getMobilePhoneNumber(  );
+        return ticket.getMobilePhoneNumber(  );
     }
 
     /* (non-Javadoc)
@@ -223,32 +211,31 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return _ticket.getId(  );
+        return ticket.getId(  );
     }
-    
-      @Override
-    public String getDemandReference( int nIdResourceHistory ) {
-         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-        
-          AppLogService.debug("\n\n\n\n TICKET TO STRING \n\n\n"+_ticket.getEmail());
-         
 
-        return _ticket.getReference();
-    
+    @Override
+    public String getDemandReference( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
+
+        AppLogService.debug( "\n\n\n\n TICKET TO STRING \n\n\n" + ticket.getEmail(  ) );
+
+        return ticket.getReference(  );
     }
-    
-     @Override
-    public String getCustomerId( int nIdResourceHistory ) {
-         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-        int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return _ticket.getCustomerId();
-    
+    @Override
+    public String getCustomerId( int nIdResourceHistory )
+    {
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+        int nIdTicket = resourceHistory.getIdResource(  );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
+
+        return ticket.getCustomerId(  );
     }
 
     /* (non-Javadoc)
@@ -257,19 +244,27 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public int getOptionalDemandIdType( int nIdResourceHistory )
     {
-        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );       
+        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
-        _ticket = TicketHome.findByPrimaryKey( nIdTicket );
-        
-        IDemandTypeService beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
-        
-        return beanDemandTypeService.getDemandType( _ticket );
+        Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
+
+        return getDemandType( ticket );
     }
-
-   
-
     
-   
-
-  
+    /**
+     * Return a demand type ID corresponding to a ticket type
+     * @param ticket The ticket
+     * @return The demand type id
+     */
+    private int getDemandType( Ticket ticket )
+    {
+        if( _beanDemandTypeService == null )
+        {
+            _beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
+        }
+        
+        int nDemandType = _beanDemandTypeService.getDemandType( ticket );
+        System.out.print( "DemandTypeId : " + nDemandType );
+        return nDemandType;
+    }
 }

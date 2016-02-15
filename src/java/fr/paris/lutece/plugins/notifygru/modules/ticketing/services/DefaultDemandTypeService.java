@@ -33,10 +33,7 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing.services;
 
-
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.ServiceConfigTaskForm;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 
@@ -54,20 +51,14 @@ public class DefaultDemandTypeService implements IDemandTypeService
     @Override
     public int getDemandType( Ticket ticket )
     {
-        int nidType = 0;
-        
-        if( ticket != null ) 
+        int nDemandType = 0;
+
+        if ( ticket != null )
         {
-        nidType = ticket.getIdTicketType( );
-        }
-       
-        if ( ticket!=null && ( ( nidType == 1 ) || ( nidType == 2 ) || ( nidType == 3 ) || ( nidType == 4 ) ) )
-        {
-            String strDemandType = AppPropertiesService.getProperty( PARAMS_CONFIG + nidType );        
-              
-            return ServiceConfigTaskForm.getNumbertoString( strDemandType );
+            int nIdType = ticket.getIdTicketType(  );
+            nDemandType = AppPropertiesService.getPropertyInt( PARAMS_CONFIG + nIdType, nIdType );
         }
 
-        return nidType;
+        return nDemandType;
     }
 }
