@@ -134,6 +134,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         model.put( Constants.MARK_MOBILE_PHONE,
             ( ticket.getMobilePhoneNumber(  ) != null ) ? ticket.getMobilePhoneNumber(  ) : "" );
         model.put( Constants.MARK_EMAIL, ( ticket.getEmail(  ) != null ) ? ticket.getEmail(  ) : "" );
+        model.put( Constants.MARK_UNIT_NAME, ( ticket.getAssigneeUnit(  ) != null && ticket.getAssigneeUnit(  ).getName() != null) ? ticket.getAssigneeUnit(  ).getName() : "" );
         model.put( Constants.MARK_REFERENCE, ( ticket.getReference(  ) != null ) ? ticket.getReference(  ) : "" );
         model.put( Constants.MARK_TICKET, ticket );
         model.put( Constants.MARK_USER_TITLES, ( ticket.getUserTitle(  ) != null ) ? ticket.getUserTitle(  ) : "" );
@@ -148,8 +149,8 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         String strUrlCompleted = AppPropertiesService.getProperty( Constants.PROPERTIES_URL_COMPLETE );
         model.put( Constants.MARK_URL_COMPLETED,
             ( ( ticket.getGuid(  ) != null ) ? parseUrlCompleted( strUrlCompleted, ticket.getGuid(  ) ) : "" ) );
-        model.put( Constants.MARK_USER_MESSAGE, "Message : User message" );
-
+        model.put( Constants.MARK_USER_MESSAGE, ( ticket.getUserMessage(  ) != null ) ? ticket.getUserMessage(  ) : "" );
+        
         return model;
     }
 
