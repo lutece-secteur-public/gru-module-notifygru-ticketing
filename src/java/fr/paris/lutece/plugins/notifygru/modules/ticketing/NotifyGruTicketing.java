@@ -36,17 +36,13 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
-import fr.paris.lutece.plugins.ticketing.service.TicketingPlugin;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -65,10 +61,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
     private static final String BEAN_SERVICE_DEMAND_TYPE = "notifygru-ticketing.DefaultDemandTypeService";
-
-    /** The _plugin. */
-    private static Plugin _plugin = PluginService.getPlugin( TicketingPlugin.PLUGIN_NAME );
-    private static IDemandTypeService _beanDemandTypeService; 
+    private static IDemandTypeService _beanDemandTypeService;
 
     /** The _resource history service. */
     @Inject
@@ -134,7 +127,9 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         model.put( Constants.MARK_MOBILE_PHONE,
             ( ticket.getMobilePhoneNumber(  ) != null ) ? ticket.getMobilePhoneNumber(  ) : "" );
         model.put( Constants.MARK_EMAIL, ( ticket.getEmail(  ) != null ) ? ticket.getEmail(  ) : "" );
-        model.put( Constants.MARK_UNIT_NAME, ( ticket.getAssigneeUnit(  ) != null && ticket.getAssigneeUnit(  ).getName() != null) ? ticket.getAssigneeUnit(  ).getName() : "" );
+        model.put( Constants.MARK_UNIT_NAME,
+            ( ( ticket.getAssigneeUnit(  ) != null ) && ( ticket.getAssigneeUnit(  ).getName(  ) != null ) )
+            ? ticket.getAssigneeUnit(  ).getName(  ) : "" );
         model.put( Constants.MARK_REFERENCE, ( ticket.getReference(  ) != null ) ? ticket.getReference(  ) : "" );
         model.put( Constants.MARK_TICKET, ticket );
         model.put( Constants.MARK_USER_TITLES, ( ticket.getUserTitle(  ) != null ) ? ticket.getUserTitle(  ) : "" );
@@ -146,26 +141,10 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
         model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
 
-        String strUrlCompleted = AppPropertiesService.getProperty( Constants.PROPERTIES_URL_COMPLETE );
-        model.put( Constants.MARK_URL_COMPLETED,
-            ( ( ticket.getGuid(  ) != null ) ? parseUrlCompleted( strUrlCompleted, ticket.getGuid(  ) ) : "" ) );
+        model.put( Constants.MARK_URL_COMPLETED, ( ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "" ) );
         model.put( Constants.MARK_USER_MESSAGE, ( ticket.getUserMessage(  ) != null ) ? ticket.getUserMessage(  ) : "" );
-        
+
         return model;
-    }
-
-    /**
-     * Parses the url completed.
-     *
-     * @param strUrl the str url
-     * @param strGuid the str guid
-     * @return the string
-     */
-    private String parseUrlCompleted( String strUrl, String strGuid )
-    {
-        String strUrlwithGuid = strUrl.replace( "${" + Constants.MARK_GUID + "}", strGuid );
-
-        return strUrlwithGuid;
     }
 
     /* (non-Javadoc)
@@ -253,7 +232,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 
         return getDemandType( ticket );
     }
-    
+
     /**
      * Return a demand type ID corresponding to a ticket type
      * @param ticket The ticket
@@ -261,33 +240,38 @@ public class NotifyGruTicketing extends AbstractServiceProvider
      */
     private int getDemandType( Ticket ticket )
     {
-        if( _beanDemandTypeService == null )
+        if ( _beanDemandTypeService == null )
         {
             _beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
         }
-        
+
         int nDemandType = _beanDemandTypeService.getDemandType( ticket );
         System.out.print( "DemandTypeId : " + nDemandType );
+
         return nDemandType;
     }
 
     @Override
-    public void updateListProvider(ITask task) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateListProvider( ITask task )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ReferenceList buildReferenteListProvider() {
-         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ReferenceList buildReferenteListProvider(  )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Boolean isKeyProvider(String strKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Boolean isKeyProvider( String strKey )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public AbstractServiceProvider getInstanceProvider(String strKey) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AbstractServiceProvider getInstanceProvider( String strKey )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -61,7 +61,6 @@ public final class Constants
     public static final String MARK_LIST_FORM = "list_form";
     public static final String MARK_TICKET = "ticket";
     public static final String MARK_LIST_MARKER = "list_markers";
-    public static final String PROPERTIES_URL_COMPLETE = "notifygru-ticketing.url_completed";
 
     /**
      * Private constructor
