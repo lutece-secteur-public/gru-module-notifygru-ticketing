@@ -2,41 +2,41 @@
 #Module NotifyGru Ticketing
 
 ##Introduction
-Le fournisseur de ressource (ticket) NotifyGru Ticketing fait le lien entre la tâche NotifyGru et le plugin ticketing. En effet, NotifyGru est conçu pour fonctionner avec une quelconque implémentation de la classe abstraite `fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider` Lui-même implémentant l'interface `fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider` qui définit les méthodes de base des fournisseurs.
+The resource provider (ticket) NotifyGru Ticketing is the link between the NotifyGru task and ticketing plugin.. Indeed, NotifyGru is designed to work with any implementation of the abstract class `fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider` Itself implements the interface `fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider` which defines the basic methods of providers.
 ##Implémentation
 
-Le Module NotifyGru Ticketing est implémenté en fournisseur de ressource, c'est-à-dire qu'une seule instance de cette implémentation permet de fournir toutes les informations sur le plugin ticketing. Ceci a pour conséquence d'avoir une valeur de la propriété `managerProvider` toujours `FALSE` pour indiquer que nous avons une unique instance de ce service
+icketing Module NotifyGru is implemented resource provider, that is to say that only one instance of this implementation allows to provide all information on ticketing plugin. This has the consequence of having a property value `managerProvider` always `FALSE` to indicate that we have a unique instance of this service
 
-Dans le fichier context, nous aurons comme déclaration de BEAN : `` 
+In the context file, we like reporting BEAN : `` 
 
 ##Configuration
 
-La méthode `public int getOptionalDemandIdType( int nIdResourceHistory );` renvoi l'identifiant du type de demande par un système de mapping configuré dans le fichier des propriétés : `workflow-ticketing.demandType.ticketType.1=101 workflow-ticketing.demandType.ticketType.2=102workflow-ticketing.demandType.ticketType.3=103 workflow-ticketing.demandType.ticketType.4=104` 
+The method `public int getOptionalDemandIdType( int nIdResourceHistory );` reference the identifier of the application type configured by a mapping system                      in the properties file : `workflow-ticketing.demandType.ticketType.1=101 workflow-ticketing.demandType.ticketType.2=102workflow-ticketing.demandType.ticketType.3=103 workflow-ticketing.demandType.ticketType.4=104` 
 
 
 
 ##Utilisation du fournisseur
 
-Lorsque la tâche est initialement créée et le fournisseur choisi, l'instance de celui-ci donne les informations disponibles via des signets. Ces signets pourront être utilisés pour paramétrer les messages ou les objets des différents onglets :
+When the task is originally created and the selected provider, the instance of the latter gives the information available via bookmarks.. These bookmarks can be used to set messages or objects of different tabs :
 
  
-* Civilité ${civility}
-* Prénom ${firstname}
-* Nom ${lastname}
+* Civility ${civility}
+* First name ${firstname}
+* Name ${lastname}
 * Référence ${reference}
-* Domaine ${ticket_domain}
-* Nature de la sollicitation ${ticket_type}
-* Assignation Entité / Agent ${unit_name}
-* Problématique ${ticket_categorie}
-* Commentaire ${comment}
-* Mode de contact ${contact_mode}
-* Téléphone fixe ${fixed_phone}
-* Téléphone portable ${mobile_phone}
-* Email ${email}
-* URL de saisis ${url_completed}
-* message de l'utilisateur ${user_message}
+* Reference ${ticket_domain}
+* Nature of the request ${ticket_type}
+* Assigning Entity / Agent ${unit_name}
+* problematic ${ticket_categorie}
+* Comment ${comment}
+* Fashion Contact ${contact_mode}
+* Phone ${fixed_phone}
+* Cellphone ${mobile_phone}
+* Mail ${email}
+* seized URL ${url_completed}
+* user message ${user_message}
 
-Lors de l'exécution de la tâche NotifyGru, l'instance du fournisseur donne toutes les informations nécessaires pour la construction du flux JSON.
+When performing the task NotifyGru, the provider instance provides all the necessary information to build the JSON stream.
 
 
 [Maven documentation and reports](http://dev.lutece.paris.fr/plugins/module-notifygru-ticketing/)
