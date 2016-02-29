@@ -1,12 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document>
-	<properties>
-		<title>Plugin</title>
-	</properties>
-	<body>
-		<section name="Plugin">
-			<subsection name="Introduction">
-			</subsection>
-		</section>
-	</body>
+    <properties>
+        <title>       
+          Module NotifyGru Ticketing : Fournisseur (module) du module NotifyGru
+           
+        </title>
+    </properties>
+    <body>
+        <section name="Module NotifyGru Ticketing">
+           
+             <subsection name="Introduction">
+             Le fournisseur de ressource (ticket) NotifyGru Ticketing fait le lien entre la tâche NotifyGru et le plugin ticketing.
+             En effet, NotifyGru est conçu pour fonctionner avec une quelconque implémentation de la classe abstraite 
+             <code>fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider</code> Lui-même implémentant l'interface 
+             <code>fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider</code> qui définit les méthodes de base des fournisseurs.
+          </subsection>
+           
+            <subsection name="Implémentation">
+                <p>Le Module NotifyGru Ticketing est implémenté en fournisseur de ressource, c'est-à-dire qu'une seule instance de cette implémentation 
+                permet de fournir toutes les informations sur le plugin ticketing.  Ceci a pour conséquence d'avoir une valeur de la propriété <code>managerProvider</code> toujours <code>FALSE</code>
+                 pour indiquer que nous avons une unique instance de ce service</p>
+             
+             <p>Dans le fichier context, nous aurons comme déclaration de BEAN :
+           <code>   <bean id="notifygru-ticketing.ProviderService" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.NotifyGruTicketing"
+ 		p:key="notifygru-ticketing.ProviderService"
+ 		p:titleI18nKey="module.notifygru.ticketing.module.providerticketing"
+                p:beanName="notifygru-ticketing.ProviderService"   
+                 p:managerProvider="false"           
+            /></code>            
+            </p>
+            
+            </subsection>
+            
+            
+            
+            <subsection name="Configuration">
+                    <p>La méthode <code>  public int getOptionalDemandIdType( int nIdResourceHistory );</code> renvoi l'identifiant du type de demande par un système de mapping configuré
+                    dans le fichier des propriétés :
+                    <code>
+workflow-ticketing.demandType.ticketType.1=101
+workflow-ticketing.demandType.ticketType.2=102
+workflow-ticketing.demandType.ticketType.3=103
+workflow-ticketing.demandType.ticketType.4=104
+</code></p>
+                    
+              
+      
+<p></p>
+    
+ 
+            </subsection>
+            
+            <subsection name="Utilisation du fournisseur">
+                <p>Lorsque la tâche est initialement créée et le fournisseur choisi, l'instance de celui-ci donne les informations disponibles via des signets.
+                 Ces signets pourront être utilisés pour paramétrer les messages ou les objets des différents onglets :  </p>
+                <ul>
+           
+<li>Civilité 	${civility}</li>
+<li>Prénom 	${firstname}</li>
+<li>Nom 	${lastname}</li>
+<li>Référence 	${reference}</li>
+<li>Domaine 	${ticket_domain}</li>
+<li>Nature de la sollicitation 	${ticket_type}</li>
+<li>Assignation Entité / Agent 	${unit_name}</li>
+<li>Problématique 	${ticket_categorie}</li>
+<li>Commentaire 	${comment}</li>
+<li>Mode de contact 	${contact_mode}</li>
+<li>Téléphone fixe 	${fixed_phone}</li>
+<li>Téléphone portable 	${mobile_phone}</li>
+<li>Email 	${email}</li>
+<li>URL de saisis 	${url_completed}</li>
+<li>message de l'utilisateur 	${user_message}</li>
+
+
+                </ul>
+                
+                <p>Lors de l'exécution de la tâche NotifyGru, l'instance du fournisseur donne toutes les informations nécessaires pour la construction du flux JSON.</p>
+            </subsection>
+            
+        </section>
+    </body>
 </document>
+
