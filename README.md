@@ -15,7 +15,7 @@ The method `public int getOptionalDemandIdType( int nIdResourceHistory );` refer
 
 
 
-##Utilisation du fournisseur
+##Provider use
 
 When the task is originally created and the selected provider, the instance of the latter gives the information available via bookmarks.. These bookmarks can be used to set messages or objects of different tabs :
 

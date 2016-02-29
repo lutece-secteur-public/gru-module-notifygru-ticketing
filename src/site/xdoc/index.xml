@@ -51,7 +51,7 @@ workflow-ticketing.demandType.ticketType.4=104
  
             </subsection>
             
-            <subsection name="Utilisation du fournisseur">
+            <subsection name="Provider use">
                 <p>When the task is originally created and the selected provider, the instance of the latter gives the information available via bookmarks..
                  These bookmarks can be used to set messages or objects of different tabs :  </p>
                 <ul>
