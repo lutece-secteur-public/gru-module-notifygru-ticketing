@@ -195,7 +195,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         int nIdTicket = resourceHistory.getIdResource(  );
         Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return ticket.getId(  );
+        return ticket.getId(  )+9999;
     }
 
     @Override
