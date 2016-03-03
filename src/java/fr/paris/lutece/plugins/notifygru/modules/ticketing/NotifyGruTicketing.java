@@ -195,7 +195,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         int nIdTicket = resourceHistory.getIdResource(  );
         Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
 
-        return ticket.getId(  )+9999;
+        return ticket.getId(  );
     }
 
     @Override
@@ -246,7 +246,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         }
 
         int nDemandType = _beanDemandTypeService.getDemandType( ticket );
-        System.out.print( "DemandTypeId : " + nDemandType );
+        AppLogService.info("DemandTypeId : " + nDemandType );
 
         return nDemandType;
     }
