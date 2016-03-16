@@ -34,6 +34,8 @@
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
+import fr.paris.lutece.plugins.ticketing.business.Channel;
+import fr.paris.lutece.plugins.ticketing.business.ChannelHome;
 import fr.paris.lutece.plugins.ticketing.business.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.TicketHome;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
@@ -140,7 +142,10 @@ public class NotifyGruTicketing extends AbstractServiceProvider
             ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ) : "" );
         model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
         model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
-        model.put( Constants.MARK_CHANNEL, ( ticket.getChannel(  ) != null ) ? ticket.getChannel(  ) : "" );
+        
+        int nidChannel = 0;
+        Channel channel = ChannelHome.findByPrimaryKey( nidChannel );        
+        model.put( Constants.MARK_CHANNEL, ( channel != null && channel.getLabel( ) != null ) ? channel.getLabel( ) : "" );
 
         String strUrlCompleted = ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "";
 
