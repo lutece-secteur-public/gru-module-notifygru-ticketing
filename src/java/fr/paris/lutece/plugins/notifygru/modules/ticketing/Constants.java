@@ -53,11 +53,12 @@ public final class Constants
     public static final String MARK_USER_TITLES = "civility";
     public static final String MARK_TICKET_TYPES = "ticket_type";
     public static final String MARK_TICKET_DOMAINS = "ticket_domain";
-    public static final String MARK_TICKET_CATEGORIES = "ticket_categorie";
+    public static final String MARK_TICKET_CATEGORIES = "ticket_category";
     public static final String MARK_CONTACT_MODES = "contact_mode";
     public static final String MARK_COMMENT = "comment";
     public static final String MARK_URL_COMPLETED = "url_completed";
     public static final String MARK_USER_MESSAGE = "user_message";
+    public static final String MARK_CHANNEL = "ticket_channel";
     public static final String MARK_LIST_FORM = "list_form";
     public static final String MARK_TICKET = "ticket";
     public static final String MARK_LIST_MARKER = "list_markers";

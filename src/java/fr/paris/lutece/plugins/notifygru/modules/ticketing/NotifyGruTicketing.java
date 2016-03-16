@@ -140,8 +140,11 @@ public class NotifyGruTicketing extends AbstractServiceProvider
             ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ) : "" );
         model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
         model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
+        model.put( Constants.MARK_CHANNEL, ( ticket.getChannel(  ) != null ) ? ticket.getChannel(  ) : "" );
 
-        model.put( Constants.MARK_URL_COMPLETED, ( ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "" ) );
+        String strUrlCompleted = ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "";
+
+        model.put( Constants.MARK_URL_COMPLETED, strUrlCompleted.replaceAll( "&", "&amp;" ) );
         model.put( Constants.MARK_USER_MESSAGE, ( ticket.getUserMessage(  ) != null ) ? ticket.getUserMessage(  ) : "" );
 
         return model;
@@ -246,7 +249,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         }
 
         int nDemandType = _beanDemandTypeService.getDemandType( ticket );
-        AppLogService.info("DemandTypeId : " + nDemandType );
+        AppLogService.info( "DemandTypeId : " + nDemandType );
 
         return nDemandType;
     }
