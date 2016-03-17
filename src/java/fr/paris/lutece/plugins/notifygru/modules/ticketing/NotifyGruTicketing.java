@@ -142,10 +142,11 @@ public class NotifyGruTicketing extends AbstractServiceProvider
             ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ) : "" );
         model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
         model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
-        
-        int nidChannel = 0;
-        Channel channel = ChannelHome.findByPrimaryKey( nidChannel );        
-        model.put( Constants.MARK_CHANNEL, ( channel != null && channel.getLabel( ) != null ) ? channel.getLabel( ) : "" );
+
+        int nidChannel = ( ticket.getIdChannel(  ) >= 0 ) ? ticket.getIdChannel(  ) : 0;
+        Channel channel = ChannelHome.findByPrimaryKey( nidChannel );
+        model.put( Constants.MARK_CHANNEL,
+            ( ( channel != null ) && ( channel.getLabel(  ) != null ) ) ? channel.getLabel(  ) : "" );
 
         String strUrlCompleted = ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "";
 
