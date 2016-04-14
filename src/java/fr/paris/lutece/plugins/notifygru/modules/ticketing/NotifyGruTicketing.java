@@ -180,6 +180,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 
         return model;
     }
+
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getOptionalMobilePhoneNumber(int)
      */
@@ -189,7 +190,6 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
         int nIdTicket = resourceHistory.getIdResource(  );
         Ticket ticket = TicketHome.findByPrimaryKey( nIdTicket );
-        
 
         return ticket.getMobilePhoneNumber(  );
     }

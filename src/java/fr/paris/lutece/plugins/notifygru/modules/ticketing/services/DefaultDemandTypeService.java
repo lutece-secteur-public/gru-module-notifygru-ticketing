@@ -34,8 +34,6 @@
 package fr.paris.lutece.plugins.notifygru.modules.ticketing.services;
 
 
-
-
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
