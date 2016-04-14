@@ -33,7 +33,11 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing.services;
 
-import fr.paris.lutece.plugins.ticketing.business.Ticket;
+import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
+
+
+
+
 
 
 /**

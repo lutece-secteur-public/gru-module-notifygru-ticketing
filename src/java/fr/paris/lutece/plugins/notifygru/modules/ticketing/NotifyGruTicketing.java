@@ -34,10 +34,10 @@
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
-import fr.paris.lutece.plugins.ticketing.business.Channel;
-import fr.paris.lutece.plugins.ticketing.business.ChannelHome;
-import fr.paris.lutece.plugins.ticketing.business.Ticket;
-import fr.paris.lutece.plugins.ticketing.business.TicketHome;
+import fr.paris.lutece.plugins.ticketing.business.channel.Channel;
+import fr.paris.lutece.plugins.ticketing.business.channel.ChannelHome;
+import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
+import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
@@ -283,4 +283,16 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public void updateListProvider() 
+	{
+		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public ReferenceList getReferenteListEntityProvider()
+	{
+		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+	}
 }
