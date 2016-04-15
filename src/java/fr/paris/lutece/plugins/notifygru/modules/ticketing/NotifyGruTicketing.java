@@ -283,4 +283,16 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     {
         throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public void updateListProvider() 
+	{
+		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public ReferenceList getReferenteListEntityProvider()
+	{
+		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+	}
 }
