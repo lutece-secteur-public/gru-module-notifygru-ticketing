@@ -209,7 +209,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public Map<String, Object> getInfos( int nIdResourceHistory )
     {
-        Map<String, Object> model = null;
+        Map<String, Object> model = new HashMap<String, Object>(  );
 
         if ( nIdResourceHistory > 0 )
         {                
