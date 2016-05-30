@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
-
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
 import fr.paris.lutece.plugins.ticketing.business.channel.Channel;
 import fr.paris.lutece.plugins.ticketing.business.channel.ChannelHome;
@@ -70,10 +69,8 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     /** The _resource history service. */
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-       
     private Ticket _ticket;
-    
- 
+
     /**
      * Ge ticket.
      *
@@ -82,19 +79,18 @@ public class NotifyGruTicketing extends AbstractServiceProvider
      */
     private Ticket getTicket( int nIdResourceHistory )
     {
-    	
-    	if( _ticket == null )    		
-        	{    			
-    	        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-    	        _ticket =  TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
-    	        
-    	        if( _ticket == null )
-                {       
-                    throw new AppException( "No ticket found for resource history Id : " + nIdResourceHistory );
-                }
-        	}
-    	
-    	return _ticket;
+        if ( _ticket == null )
+        {
+            ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+            _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource(  ) );
+
+            if ( _ticket == null )
+            {
+                throw new AppException( "No ticket found for resource history Id : " + nIdResourceHistory );
+            }
+        }
+
+        return _ticket;
     }
 
     /* (non-Javadoc)
@@ -103,7 +99,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public String getUserEmail( int nIdResourceHistory )
     {
-    	return getTicket( nIdResourceHistory ).getEmail( );
+        return getTicket( nIdResourceHistory ).getEmail(  );
     }
 
     /* (non-Javadoc)
@@ -112,7 +108,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public String getUserGuid( int nIdResourceHistory )
     {
-    	return getTicket( nIdResourceHistory ).getGuid( );
+        return getTicket( nIdResourceHistory ).getGuid(  );
     }
 
     /* (non-Javadoc)
@@ -121,7 +117,6 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public String getInfosHelp( Locale local )
     {
-       
         Map<String, Object> model = buildModelNotifyGruTicketing( new Ticket(  ) );
         @SuppressWarnings( "deprecation" )
         HtmlTemplate t = AppTemplateService.getTemplateFromStringFtl( AppTemplateService.getTemplate( 
@@ -184,7 +179,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         Map<String, Object> model = new HashMap<String, Object>(  );
 
         if ( nIdResourceHistory > 0 )
-        {                
+        {
             model = buildModelNotifyGruTicketing( getTicket( nIdResourceHistory ) );
         }
         else
@@ -200,8 +195,8 @@ public class NotifyGruTicketing extends AbstractServiceProvider
      */
     @Override
     public String getOptionalMobilePhoneNumber( int nIdResourceHistory )
-    {       
-        return getTicket( nIdResourceHistory ).getMobilePhoneNumber( );
+    {
+        return getTicket( nIdResourceHistory ).getMobilePhoneNumber(  );
     }
 
     /* (non-Javadoc)
@@ -210,19 +205,19 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     @Override
     public int getOptionalDemandId( int nIdResourceHistory )
     {
-    	  return getTicket( nIdResourceHistory ).getId( );
+        return getTicket( nIdResourceHistory ).getId(  );
     }
 
     @Override
     public String getDemandReference( int nIdResourceHistory )
     {
-    	  return getTicket( nIdResourceHistory ).getReference( );
+        return getTicket( nIdResourceHistory ).getReference(  );
     }
 
     @Override
     public String getCustomerId( int nIdResourceHistory )
     {
-    	  return getTicket( nIdResourceHistory ).getCustomerId( );
+        return getTicket( nIdResourceHistory ).getCustomerId(  );
     }
 
     /* (non-Javadoc)
@@ -276,15 +271,15 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 
-	@Override
-	public void updateListProvider() 
-	{
-		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public void updateListProvider(  )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+    }
 
-	@Override
-	public ReferenceList getReferenteListEntityProvider()
-	{
-		 throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
-	}
+    @Override
+    public ReferenceList getReferenteListEntityProvider(  )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+    }
 }
