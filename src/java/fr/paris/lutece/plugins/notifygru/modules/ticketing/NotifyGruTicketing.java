@@ -70,9 +70,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     /** The _resource history service. */
     @Inject
     private IResourceHistoryService _resourceHistoryService;
-    
-    /** The _resource history. */
-    private ResourceHistory _resourceHistory;    
+       
     private Ticket _ticket;
     
  
@@ -85,45 +83,19 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     private Ticket getTicket( int nIdResourceHistory )
     {
     	
-    	if( ( _ticket == null ) || (  _resourceHistory != null && nIdResourceHistory != _resourceHistory.getId( ) ) )    		
+    	if( _ticket == null )    		
         	{    			
-        		_ticket =  TicketHome.findByPrimaryKey( getResourceHistory( nIdResourceHistory ).getIdResource(  ) );
+    	        ResourceHistory resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
+    	        _ticket =  TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
+    	        
+    	        if( _ticket == null )
+                {       
+                    throw new AppException( "No ticket found for resource history Id : " + nIdResourceHistory );
+                }
         	}
-        	
-        	if( _ticket == null )
-        	{    	
-        		throw new AppException( "_ticket is NULL" );
-        	}
-    
     	
     	return _ticket;
     }
-    
-    /**
-     * Gets the resource history.
-     *
-     * @param nIdResourceHistory the n id resource history
-     * @return the resource history
-     */
-    private ResourceHistory getResourceHistory( int nIdResourceHistory )
-    {
-    	
-    		if( ( _resourceHistory == null ) || (  _resourceHistory != null && nIdResourceHistory != _resourceHistory.getId( ) ) )
-            {
-            	_resourceHistory = _resourceHistoryService.findByPrimaryKey( nIdResourceHistory );
-            }
-        	
-        	if( _resourceHistory == null )
-        	{    	
-        		throw new AppException( "Ressource History is NULL" );
-        	}    		
-    	
-    	
-    	
-    	return _resourceHistory;
-    }
-    
-   
 
     /* (non-Javadoc)
      * @see fr.paris.lutece.plugins.workflow.modules.notifygru.service.IProvider#getUserEmail(int)
