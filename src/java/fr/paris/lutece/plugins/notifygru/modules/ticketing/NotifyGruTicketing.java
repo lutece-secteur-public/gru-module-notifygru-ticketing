@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,8 +34,6 @@
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
-import fr.paris.lutece.plugins.ticketing.business.channel.Channel;
-import fr.paris.lutece.plugins.ticketing.business.channel.ChannelHome;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
@@ -72,7 +70,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
     private Ticket _ticket;
 
     /**
-     * Ge ticket.
+     * Get ticket fot the given id resource
      *
      * @param nIdResourceHistory the n id resource history
      * @return the ticket
