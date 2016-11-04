@@ -17,7 +17,5 @@
                 p:beanName="notifygru-ticketing.ProviderService"   
                  p:managerProvider="false"           
             />
-        
-           <bean id="notifygru-ticketing.DefaultDemandTypeService" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.services.DefaultDemandTypeService" />
         	
 </beans>

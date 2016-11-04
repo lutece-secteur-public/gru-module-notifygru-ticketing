@@ -34,23 +34,6 @@
             
             
             
-            <subsection name="Configuration">
-                    <p>The method <code>  public int getOptionalDemandIdType( int nIdResourceHistory );</code> reference the identifier of the application type configured by a mapping system
-                     in the properties file :
-                    <code>
-workflow-ticketing.demandType.ticketType.1=101
-workflow-ticketing.demandType.ticketType.2=102
-workflow-ticketing.demandType.ticketType.3=103
-workflow-ticketing.demandType.ticketType.4=104
-</code></p>
-                    
-              
-      
-<p></p>
-    
- 
-            </subsection>
-            
             <subsection name="Provider use">
                 <p>When the task is originally created and the selected provider, the instance of the latter gives the information available via bookmarks..
                  These bookmarks can be used to set messages or objects of different tabs :  </p>

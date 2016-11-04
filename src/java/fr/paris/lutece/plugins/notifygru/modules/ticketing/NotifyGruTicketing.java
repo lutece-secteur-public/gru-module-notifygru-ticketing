@@ -33,17 +33,15 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
-import fr.paris.lutece.plugins.notifygru.modules.ticketing.services.IDemandTypeService;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
+import fr.paris.lutece.plugins.ticketing.business.tickettype.TicketTypeHome;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.AbstractServiceProvider;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.plugins.workflowcore.service.resource.IResourceHistoryService;
 import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -61,8 +59,6 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 {
     /** The Constant TEMPLATE_FREEMARKER_LIST. */
     private static final String TEMPLATE_FREEMARKER_LIST = "admin/plugins/workflow/modules/notifygru/ticketing/freemarker_list.html";
-    private static final String BEAN_SERVICE_DEMAND_TYPE = "notifygru-ticketing.DefaultDemandTypeService";
-    private static IDemandTypeService _beanDemandTypeService;
 
     /** The _resource history service. */
     @Inject
@@ -233,15 +229,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
      */
     private int getDemandType( Ticket ticket )
     {
-        if ( _beanDemandTypeService == null )
-        {
-            _beanDemandTypeService = SpringContextService.getBean( BEAN_SERVICE_DEMAND_TYPE );
-        }
-
-        int nDemandType = _beanDemandTypeService.getDemandType( ticket );
-        AppLogService.info( "DemandTypeId : " + nDemandType );
-
-        return nDemandType;
+        return TicketTypeHome.findByPrimaryKey( ticket.getIdTicketType(  ) ).getDemandTypeId(  );
     }
 
     @Override

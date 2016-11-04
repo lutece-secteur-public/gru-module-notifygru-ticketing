@@ -34,23 +34,6 @@
             
             
             
-            <subsection name="Configuration">
-                    <p>La méthode <code>  public int getOptionalDemandIdType( int nIdResourceHistory );</code> renvoi l'identifiant du type de demande par un système de mapping configuré
-                    dans le fichier des propriétés :
-                    <code>
-workflow-ticketing.demandType.ticketType.1=101
-workflow-ticketing.demandType.ticketType.2=102
-workflow-ticketing.demandType.ticketType.3=103
-workflow-ticketing.demandType.ticketType.4=104
-</code></p>
-                    
-              
-      
-<p></p>
-    
- 
-            </subsection>
-            
             <subsection name="Utilisation du fournisseur">
                 <p>Lorsque la tâche est initialement créée et le fournisseur choisi, l'instance de celui-ci donne les informations disponibles via des signets.
                  Ces signets pourront être utilisés pour paramétrer les messages ou les objets des différents onglets :  </p>
