@@ -45,6 +45,8 @@ import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -157,7 +159,7 @@ public class NotifyGruTicketing extends AbstractServiceProvider
 
         String strUrlCompleted = ( ticket.getUrl(  ) != null ) ? ticket.getUrl(  ) : "";
 
-        model.put( Constants.MARK_URL_COMPLETED, strUrlCompleted.replaceAll( "&", "&amp;" ) );
+        model.put( Constants.MARK_URL_COMPLETED, StringEscapeUtils.escapeHtml( strUrlCompleted ) );
         model.put( Constants.MARK_USER_MESSAGE, ( ticket.getUserMessage(  ) != null ) ? ticket.getUserMessage(  ) : "" );
 
         return model;
