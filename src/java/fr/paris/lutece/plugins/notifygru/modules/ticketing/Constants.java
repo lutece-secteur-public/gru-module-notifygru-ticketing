@@ -54,6 +54,7 @@ public final class Constants
     public static final String MARK_TICKET_TYPES = "ticket_type";
     public static final String MARK_TICKET_DOMAINS = "ticket_domain";
     public static final String MARK_TICKET_CATEGORIES = "ticket_category";
+    public static final String MARK_TICKET_CATEGORY_PRECISION = "category_precision";
     public static final String MARK_CONTACT_MODES = "contact_mode";
     public static final String MARK_COMMENT = "comment";
     public static final String MARK_URL_COMPLETED = "url_completed";
