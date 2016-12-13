@@ -149,10 +149,10 @@ public class NotifyGruTicketing extends AbstractServiceProvider
         model.put( Constants.MARK_TICKET_DOMAINS,
             ( ticket.getTicketDomain(  ) != null ) ? ticket.getTicketDomain(  ) : "" );
         model.put( Constants.MARK_TICKET_CATEGORIES,
+            ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ).getLabel( ) : "" );
+        model.put( Constants.MARK_TICKET_CATEGORY_PRECISION,
             ( ( ticket.getTicketCategory(  ) != null ) && ( ticket.getTicketCategory(  ).getPrecision(  ) != null ) )
             ? ticket.getTicketCategory(  ).getPrecision(  ) : "" );
-        model.put( Constants.MARK_TICKET_CATEGORY_PRECISION,
-            ( ticket.getTicketCategory(  ) != null ) ? ticket.getTicketCategory(  ).getPrecision(  ) : "" );
         model.put( Constants.MARK_CONTACT_MODES, ( ticket.getContactMode(  ) != null ) ? ticket.getContactMode(  ) : "" );
         model.put( Constants.MARK_COMMENT, ( ticket.getTicketComment(  ) != null ) ? ticket.getTicketComment(  ) : "" );
 
