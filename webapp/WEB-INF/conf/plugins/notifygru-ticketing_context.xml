@@ -11,11 +11,8 @@
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
 	
-       <bean id="notifygru-ticketing.ProviderService" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.NotifyGruTicketing" scope="prototype"
- 		p:key="notifygru-ticketing.ProviderService"
- 		p:titleI18nKey="module.notifygru.ticketing.module.providerticketing"
-                p:beanName="notifygru-ticketing.ProviderService"   
-                 p:managerProvider="false"           
-            />
+       <bean id="notifygru-ticketing.provider-manager" class="fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider.TicketProviderManager">
+           <constructor-arg type="java.lang.String" value="notifygru-ticketing.provider-manager"/>
+       </bean>
         	
 </beans>
