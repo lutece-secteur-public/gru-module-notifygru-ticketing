@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 
-
 /**
  *
  * NotifyDirectoryConstants
@@ -41,7 +40,7 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing;
  */
 public final class Constants
 {
-    // MARKS 
+    // MARKS
     public static final String MARK_CONNECTION_ID = "identification_guid";
     public static final String MARK_USER_FIRSTNAME = "firstname";
     public static final String MARK_USER_LASTNAME = "lastname";
@@ -67,7 +66,7 @@ public final class Constants
     /**
      * Private constructor
      */
-    private Constants(  )
+    private Constants( )
     {
     }
 }

@@ -12,21 +12,21 @@ import fr.paris.lutece.plugins.workflowcore.service.task.ITask;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 
 public class TicketProviderManager extends AbstractProviderManager
-{      
+{
     private static final String PROVIDER_ID = "ticket";
-    
+
     private static final String MESSAGE_PROVIDER_LABEL = "module.notifygru.ticketing.module.provider.ticketing";
-    
+
     public TicketProviderManager( String strId )
     {
         super( strId );
     }
-    
+
     @Override
     public Collection<ProviderDescription> getAllProviderDescriptions( ITask task )
     {
         Collection<ProviderDescription> collectionProviderDescriptions = new ArrayList<>( );
-        
+
         collectionProviderDescriptions.add( getProviderDescription( null ) );
 
         return collectionProviderDescriptions;
@@ -35,11 +35,11 @@ public class TicketProviderManager extends AbstractProviderManager
     @Override
     public ProviderDescription getProviderDescription( String strProviderId )
     {
-        ProviderDescription providerDescription = new ProviderDescription( 
-                PROVIDER_ID, I18nService.getLocalizedString( MESSAGE_PROVIDER_LABEL, I18nService.getDefaultLocale( ) ) );
-        
+        ProviderDescription providerDescription = new ProviderDescription( PROVIDER_ID, I18nService.getLocalizedString( MESSAGE_PROVIDER_LABEL,
+                I18nService.getDefaultLocale( ) ) );
+
         providerDescription.setMarkerDescriptions( TicketProvider.getProviderMarkerDescriptions( ) );
-        
+
         return providerDescription;
     }
 
