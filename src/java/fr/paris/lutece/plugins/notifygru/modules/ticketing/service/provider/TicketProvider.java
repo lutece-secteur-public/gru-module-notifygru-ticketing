@@ -2,7 +2,6 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
