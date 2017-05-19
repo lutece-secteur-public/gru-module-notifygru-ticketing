@@ -48,6 +48,7 @@ public final class Constants
     public static final String MARK_USER_MOBILE_PHONE = "mobile_phone";
     public static final String MARK_TICKET_REFERENCE = "reference";
     public static final String MARK_USER_EMAIL = "email";
+    public static final String MARK_USER_UNIT_EMAIL = "unit_email";
     public static final String MARK_USER_UNIT_NAME = "unit_name";
     public static final String MARK_USER_TITLE = "civility";
     public static final String MARK_TICKET_TYPE = "ticket_type";

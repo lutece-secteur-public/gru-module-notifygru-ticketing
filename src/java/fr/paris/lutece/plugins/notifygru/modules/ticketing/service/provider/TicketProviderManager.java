@@ -2,7 +2,8 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.IProvider;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.AbstractProviderManager;
@@ -44,9 +45,9 @@ public class TicketProviderManager extends AbstractProviderManager
     }
 
     @Override
-    public IProvider createProvider( String strProviderId, ResourceHistory resourceHistory )
+    public IProvider createProvider( String strProviderId, ResourceHistory resourceHistory, HttpServletRequest request )
     {
-        return new TicketProvider( resourceHistory );
+        return new TicketProvider( resourceHistory, request );
     }
 
 }

@@ -2,7 +2,8 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -10,10 +11,14 @@ import fr.paris.lutece.plugins.notifygru.modules.ticketing.Constants;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
 import fr.paris.lutece.plugins.ticketing.business.tickettype.TicketTypeHome;
+import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
+import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
+import fr.paris.lutece.plugins.unittree.modules.notification.service.NotificationService;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.IProvider;
 import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.NotifyGruMarker;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 public class TicketProvider implements IProvider
 {
@@ -32,14 +37,25 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_FIXED_PHONE_NUMBER = "ticketing.create_ticket.labelFixedPhoneNumber";
     private static final String MESSAGE_MARKER_USER_MOBILE_PHONE_NUMBER = "ticketing.create_ticket.labelMobilePhoneNumber";
     private static final String MESSAGE_MARKER_USER_EMAIL = "ticketing.create_ticket.labelEmail";
+    private static final String MESSAGE_MARKER_USER_UNIT_EMAIL = "module.notifygru.ticketing.provider.ticket.marker.unitEmail";
     private static final String MESSAGE_MARKER_USER_MESSAGE = "module.notifygru.ticketing.provider.ticket.marker.userMessage";
     private static final String MESSAGE_MARKER_TECHNICAL_URL_COMPLETE = "module.notifygru.ticketing.provider.ticket.marker.urlComplete";
 
+    private static final String SEMICOLON = ";";
+
     private Ticket _ticket;
 
-    public TicketProvider( ResourceHistory resourceHistory )
+    private boolean _bTicketingUnitChanged = false;
+
+    public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
     {
         _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
+        Boolean tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
+
+        if ( tempAttributeUnitChanged != null )
+        {
+            _bTicketingUnitChanged = tempAttributeUnitChanged;
+        }
     }
 
     @Override
@@ -98,6 +114,19 @@ public class TicketProvider implements IProvider
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_UNIT_NAME, _ticket.getAssigneeUnit( ).getName( ) ) );
         }
 
+        if ( _bTicketingUnitChanged )
+        {
+            StringBuilder sb = new StringBuilder( );
+            INotificationService ns = SpringContextService.getBean( NotificationService.BEAN_NAME );
+
+            for ( String mail : ns.getUnitUsersEmail( _ticket.getAssigneeUnit( ).getUnitId( ) ) )
+            {
+                sb.append( mail ).append( SEMICOLON );
+            }
+
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_UNIT_EMAIL, sb.toString( ) ) );
+        }
+
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_CONTACT_MODE, _ticket.getContactMode( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_FIXED_PHONE, _ticket.getFixedPhoneNumber( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_MOBILE_PHONE, _ticket.getMobilePhoneNumber( ) ) );
@@ -140,6 +169,7 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_FIXED_PHONE, MESSAGE_MARKER_USER_FIXED_PHONE_NUMBER ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_MOBILE_PHONE, MESSAGE_MARKER_USER_MOBILE_PHONE_NUMBER ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_EMAIL, MESSAGE_MARKER_USER_EMAIL ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_UNIT_EMAIL, MESSAGE_MARKER_USER_UNIT_EMAIL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_MESSAGE, MESSAGE_MARKER_USER_MESSAGE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_TICKET_REFERENCE, MESSAGE_MARKER_TICKET_REFERENCE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_TICKET_TYPE, MESSAGE_MARKER_TICKET_TYPE ) );
