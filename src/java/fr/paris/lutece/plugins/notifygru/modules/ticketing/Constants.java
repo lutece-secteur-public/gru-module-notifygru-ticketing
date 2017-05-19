@@ -63,6 +63,10 @@ public final class Constants
     public static final String MARK_LIST_FORM = "list_form";
     public static final String MARK_TICKET = "ticket";
     public static final String MARK_LIST_MARKER = "list_markers";
+	public static final String MARK_USER_ADDRESS = "address";
+	public static final String MARK_USER_ADDRESS_DETAIL = "address_detail";
+	public static final String MARK_USER_POSTAL_CODE = "postal_code";
+	public static final String MARK_USER_CITY = "city";
 
     /**
      * Private constructor

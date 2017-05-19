@@ -1,3 +1,36 @@
+/*
+ * Copyright (c) 2002-2017, Mairie de Paris
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  1. Redistributions of source code must retain the above copyright notice
+ *     and the following disclaimer.
+ *
+ *  2. Redistributions in binary form must reproduce the above copyright notice
+ *     and the following disclaimer in the documentation and/or other materials
+ *     provided with the distribution.
+ *
+ *  3. Neither the name of 'Mairie de Paris' nor 'Lutece' nor the names of its
+ *     contributors may be used to endorse or promote products derived from
+ *     this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ *
+ * License 1.0
+ */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
 import java.util.ArrayList;
@@ -20,6 +53,10 @@ import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
+/**
+ * This class represents a provider for a {@link Ticket} object
+ *
+ */
 public class TicketProvider implements IProvider
 {
     private static final String MESSAGE_MARKER_TICKET_REFERENCE = "ticketing.manage_tickets.columnReference";
@@ -40,6 +77,10 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_UNIT_EMAIL = "module.notifygru.ticketing.provider.ticket.marker.unitEmail";
     private static final String MESSAGE_MARKER_USER_MESSAGE = "module.notifygru.ticketing.provider.ticket.marker.userMessage";
     private static final String MESSAGE_MARKER_TECHNICAL_URL_COMPLETE = "module.notifygru.ticketing.provider.ticket.marker.urlComplete";
+	private static final String MESSAGE_MARKER_USER_ADDRESS = "ticketing.create_ticket.labelAddress";
+	private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL = "ticketing.create_ticket.labelAddressDetail";
+	private static final String MESSAGE_MARKER_USER_POSTAL_CODE = "ticketing.create_ticket.labelPostalCode";
+	private static final String MESSAGE_MARKER_USER_CITY = "ticketing.create_ticket.labelCity";
 
     private static final String SEMICOLON = ";";
 
@@ -47,7 +88,13 @@ public class TicketProvider implements IProvider
 
     private boolean _bTicketingUnitChanged = false;
 
-    public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
+    /**
+     * Constructor
+     * 
+     * @param resourceHistory
+     *            the resource history. Corresponds to the {@code Ticket} object containing the data to provide
+     */
+	public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
     {
         _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
         Boolean tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
@@ -58,48 +105,72 @@ public class TicketProvider implements IProvider
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideDemandId( )
     {
         return String.valueOf( _ticket.getId( ) );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideDemandTypeId( )
     {
         return String.valueOf( TicketTypeHome.findByPrimaryKey( _ticket.getIdTicketType( ) ).getDemandTypeId( ) );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideDemandReference( )
     {
         return _ticket.getReference( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideCustomerConnectionId( )
     {
         return _ticket.getGuid( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideCustomerId( )
     {
         return _ticket.getCustomerId( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideCustomerEmail( )
     {
         return _ticket.getEmail( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String provideCustomerMobilePhone( )
     {
         return _ticket.getMobilePhoneNumber( );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Collection<NotifyGruMarker> provideMarkerValues( )
     {
@@ -153,10 +224,24 @@ public class TicketProvider implements IProvider
         {
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TECHNICAL_URL_COMPLETED, StringEscapeUtils.escapeHtml( _ticket.getUrl( ) ) ) );
         }
+        
+        if ( _ticket.getTicketAddress( ) != null )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddress( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS_DETAIL, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddressDetail( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_POSTAL_CODE, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getPostalCode( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_CITY, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getCity( ) ) ) );
+
+        }
 
         return collectionNotifyGruMarkers;
     }
 
+    /**
+     * Gives the marker descriptions
+     * 
+     * @return the marker descritions
+     */
     public static Collection<NotifyGruMarker> getProviderMarkerDescriptions( )
     {
         Collection<NotifyGruMarker> collectionNotifyGruMarkers = new ArrayList<>( );
@@ -179,10 +264,25 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_TICKET_CHANNEL, MESSAGE_MARKER_TICKET_CHANNEL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_TICKET_COMMENT, MESSAGE_MARKER_TICKET_COMMENT ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_TECHNICAL_URL_COMPLETED, MESSAGE_MARKER_TECHNICAL_URL_COMPLETE ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS, MESSAGE_MARKER_USER_ADDRESS ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS_DETAIL, MESSAGE_MARKER_USER_ADDRESS_DETAIL ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
+        
 
+        
         return collectionNotifyGruMarkers;
     }
 
+    /**
+     * Creates a {@code NotifyGruMarker} object with the specified marker and value.
+     * 
+     * @param strMarker
+     *            the marker
+     * @param strValue
+     *            the value to inject into the {@code NotifyGruMarker} object
+     * @return the {@code NotifyGruMarker} object
+     */
     private static NotifyGruMarker createMarkerValues( String strMarker, String strValue )
     {
         NotifyGruMarker notifyGruMarker = new NotifyGruMarker( strMarker );
@@ -191,6 +291,15 @@ public class TicketProvider implements IProvider
         return notifyGruMarker;
     }
 
+    /**
+     * Creates a {@code NotifyGruMarker} object with the specified marker and description.
+     * 
+     * @param strMarker
+     *            the marker
+     * @param strDescription
+     *            the description to inject into the {@code NotifyGruMarker} object
+     * @return the {@code NotifyGruMarker} object
+     */
     private static NotifyGruMarker createMarkerDescriptions( String strMarker, String strDescription )
     {
         NotifyGruMarker notifyGruMarker = new NotifyGruMarker( strMarker );
