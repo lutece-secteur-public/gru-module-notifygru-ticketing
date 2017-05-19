@@ -77,10 +77,10 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_UNIT_EMAIL = "module.notifygru.ticketing.provider.ticket.marker.unitEmail";
     private static final String MESSAGE_MARKER_USER_MESSAGE = "module.notifygru.ticketing.provider.ticket.marker.userMessage";
     private static final String MESSAGE_MARKER_TECHNICAL_URL_COMPLETE = "module.notifygru.ticketing.provider.ticket.marker.urlComplete";
-	private static final String MESSAGE_MARKER_USER_ADDRESS = "ticketing.create_ticket.labelAddress";
-	private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL = "ticketing.create_ticket.labelAddressDetail";
-	private static final String MESSAGE_MARKER_USER_POSTAL_CODE = "ticketing.create_ticket.labelPostalCode";
-	private static final String MESSAGE_MARKER_USER_CITY = "ticketing.create_ticket.labelCity";
+    private static final String MESSAGE_MARKER_USER_ADDRESS = "ticketing.create_ticket.labelAddress";
+    private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL = "ticketing.create_ticket.labelAddressDetail";
+    private static final String MESSAGE_MARKER_USER_POSTAL_CODE = "ticketing.create_ticket.labelPostalCode";
+    private static final String MESSAGE_MARKER_USER_CITY = "ticketing.create_ticket.labelCity";
 
     private static final String SEMICOLON = ";";
 
@@ -94,7 +94,7 @@ public class TicketProvider implements IProvider
      * @param resourceHistory
      *            the resource history. Corresponds to the {@code Ticket} object containing the data to provide
      */
-	public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
+    public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
     {
         _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
         Boolean tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
@@ -224,13 +224,17 @@ public class TicketProvider implements IProvider
         {
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TECHNICAL_URL_COMPLETED, StringEscapeUtils.escapeHtml( _ticket.getUrl( ) ) ) );
         }
-        
+
         if ( _ticket.getTicketAddress( ) != null )
         {
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddress( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS_DETAIL, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddressDetail( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_POSTAL_CODE, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getPostalCode( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_CITY, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getCity( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS,
+                    StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddress( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS_DETAIL,
+                    StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddressDetail( ) ) ) );
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_POSTAL_CODE,
+                    StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getPostalCode( ) ) ) );
+            collectionNotifyGruMarkers
+                    .add( createMarkerValues( Constants.MARK_USER_CITY, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getCity( ) ) ) );
 
         }
 
@@ -268,9 +272,7 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS_DETAIL, MESSAGE_MARKER_USER_ADDRESS_DETAIL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
-        
 
-        
         return collectionNotifyGruMarkers;
     }
 
