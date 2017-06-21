@@ -97,7 +97,12 @@ public class TicketProvider implements IProvider
     public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
     {
         _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
-        Boolean tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
+        Boolean tempAttributeUnitChanged = null;
+
+        if ( request != null )
+        {
+            tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
+        }
 
         if ( tempAttributeUnitChanged != null )
         {
