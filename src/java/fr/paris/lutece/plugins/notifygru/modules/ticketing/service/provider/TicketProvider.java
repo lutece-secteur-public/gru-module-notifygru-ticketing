@@ -52,6 +52,7 @@ import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.Notif
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * This class represents a provider for a {@link Ticket} object
@@ -59,6 +60,10 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
  */
 public class TicketProvider implements IProvider
 {
+	// PROPERTY KEY
+	private static final String PROPERTY_SMS_SENDER_NAME = "workflow-notifygruticketing.gruprovider.sms.sendername";
+	
+	// MESSAGE KEY
     private static final String MESSAGE_MARKER_TICKET_REFERENCE = "ticketing.manage_tickets.columnReference";
     private static final String MESSAGE_MARKER_TICKET_DOMAIN = "ticketing.create_ticket.labelTicketDomain";
     private static final String MESSAGE_MARKER_TICKET_TYPE = "ticketing.create_ticket.labelTicketType";
@@ -183,6 +188,15 @@ public class TicketProvider implements IProvider
     }
 
     /**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String provideSmsSender()
+	{
+		return AppPropertiesService.getProperty( PROPERTY_SMS_SENDER_NAME );
+	}
+
+	/**
      * {@inheritDoc}
      */
     @Override
