@@ -39,11 +39,12 @@ import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.Constants;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
-import fr.paris.lutece.plugins.ticketing.business.tickettype.TicketTypeHome;
+import fr.paris.lutece.plugins.ticketing.service.category.TicketCategoryService;
 import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.NotificationService;
@@ -130,7 +131,7 @@ public class TicketProvider implements IProvider
     @Override
     public String provideDemandTypeId( )
     {
-        return String.valueOf( TicketTypeHome.findByPrimaryKey( _ticket.getIdTicketType( ) ).getDemandTypeId( ) );
+        return String.valueOf( TicketCategoryService.getInstance( ).findCategoryById( _ticket.getTicketType( ).getId( ) ).getDemandId( ) );
     }
 
     /**
@@ -139,7 +140,7 @@ public class TicketProvider implements IProvider
     @Override
     public String provideDemandSubtypeId( )
     {
-        return String.valueOf( _ticket.getIdTicketDomain( ) );
+        return String.valueOf( _ticket.getTicketDomain( ).getId( ) );
     }
 
     /**
@@ -232,13 +233,17 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_EMAIL, _ticket.getEmail( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_MESSAGE, _ticket.getUserMessage( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_REFERENCE, _ticket.getReference( ) ) );
-        collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_TYPE, _ticket.getTicketType( ) ) );
-        collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_DOMAIN, _ticket.getTicketDomain( ) ) );
+        collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_TYPE, _ticket.getTicketType( ).getLabel( ) ) );
+        collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_DOMAIN, _ticket.getTicketDomain( ).getLabel( ) ) );
 
         if ( _ticket.getTicketCategory( ) != null )
         {
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CATEGORY, _ticket.getTicketCategory( ).getLabel( ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CATEGORY_PRECISION, _ticket.getTicketCategory( ).getPrecision( ) ) );
+        }
+
+        if ( _ticket.getTicketPrecision( ) != null && StringUtils.isNotBlank( _ticket.getTicketPrecision( ).getLabel( ) ) )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CATEGORY_PRECISION, _ticket.getTicketPrecision( ).getLabel( ) ) );
         }
 
         if ( _ticket.getChannel( ) != null )
