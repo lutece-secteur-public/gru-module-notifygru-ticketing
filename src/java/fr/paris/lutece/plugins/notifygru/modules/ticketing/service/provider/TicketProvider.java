@@ -235,7 +235,11 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_REFERENCE, _ticket.getReference( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_TYPE, _ticket.getTicketType( ).getLabel( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_DOMAIN, _ticket.getTicketDomain( ).getLabel( ) ) );
-        collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CATEGORY, _ticket.getTicketThematic( ).getLabel( ) ) );
+        
+        if ( _ticket.getTicketThematic( ) != null && StringUtils.isNotBlank( _ticket.getTicketThematic( ).getLabel( ) ) )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CATEGORY, _ticket.getTicketThematic( ).getLabel( ) ) );
+        }
 
         if ( _ticket.getTicketPrecision( ) != null && StringUtils.isNotBlank( _ticket.getTicketPrecision( ).getLabel( ) ) )
         {
