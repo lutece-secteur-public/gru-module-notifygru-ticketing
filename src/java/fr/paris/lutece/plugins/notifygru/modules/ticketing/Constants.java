@@ -41,32 +41,30 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing;
 public final class Constants
 {
     // MARKS
-    public static final String MARK_CONNECTION_ID = "identification_guid";
-    public static final String MARK_USER_FIRSTNAME = "firstname";
-    public static final String MARK_USER_LASTNAME = "lastname";
-    public static final String MARK_USER_FIXED_PHONE = "fixed_phone";
-    public static final String MARK_USER_MOBILE_PHONE = "mobile_phone";
-    public static final String MARK_TICKET_REFERENCE = "reference";
-    public static final String MARK_USER_EMAIL = "email";
-    public static final String MARK_USER_UNIT_EMAIL = "unit_email";
-    public static final String MARK_USER_UNIT_NAME = "unit_name";
-    public static final String MARK_USER_TITLE = "civility";
-    public static final String MARK_TICKET_TYPE = "ticket_type";
-    public static final String MARK_TICKET_DOMAIN = "ticket_domain";
-    public static final String MARK_TICKET_CATEGORY = "ticket_category";
-    public static final String MARK_TICKET_CATEGORY_PRECISION = "category_precision";
-    public static final String MARK_USER_CONTACT_MODE = "contact_mode";
-    public static final String MARK_TICKET_COMMENT = "comment";
+    public static final String MARK_CONNECTION_ID           = "identification_guid";
+    public static final String MARK_USER_FIRSTNAME          = "firstname";
+    public static final String MARK_USER_LASTNAME           = "lastname";
+    public static final String MARK_USER_FIXED_PHONE        = "fixed_phone";
+    public static final String MARK_USER_MOBILE_PHONE       = "mobile_phone";
+    public static final String MARK_TICKET_REFERENCE        = "reference";
+    public static final String MARK_USER_EMAIL              = "email";
+    public static final String MARK_USER_UNIT_EMAIL         = "unit_email";
+    public static final String MARK_USER_UNIT_NAME          = "unit_name";
+    public static final String MARK_USER_TITLE              = "civility";
+    public static final String MARK_USER_CONTACT_MODE       = "contact_mode";
+    public static final String MARK_TICKET_COMMENT          = "comment";
     public static final String MARK_TECHNICAL_URL_COMPLETED = "url_completed";
-    public static final String MARK_USER_MESSAGE = "user_message";
-    public static final String MARK_TICKET_CHANNEL = "ticket_channel";
-    public static final String MARK_LIST_FORM = "list_form";
-    public static final String MARK_TICKET = "ticket";
-    public static final String MARK_LIST_MARKER = "list_markers";
-    public static final String MARK_USER_ADDRESS = "address";
-    public static final String MARK_USER_ADDRESS_DETAIL = "address_detail";
-    public static final String MARK_USER_POSTAL_CODE = "postal_code";
-    public static final String MARK_USER_CITY = "city";
+    public static final String MARK_USER_MESSAGE            = "user_message";
+    public static final String MARK_TICKET_CHANNEL          = "ticket_channel";
+    public static final String MARK_LIST_FORM               = "list_form";
+    public static final String MARK_TICKET                  = "ticket";
+    public static final String MARK_LIST_MARKER             = "list_markers";
+    public static final String MARK_USER_ADDRESS            = "address";
+    public static final String MARK_USER_ADDRESS_DETAIL     = "address_detail";
+    public static final String MARK_USER_POSTAL_CODE        = "postal_code";
+    public static final String MARK_USER_CITY               = "city";
+
+    public static final String MARK_CATEGORY                = "ticket_category_level_";
 
     /**
      * Private constructor
