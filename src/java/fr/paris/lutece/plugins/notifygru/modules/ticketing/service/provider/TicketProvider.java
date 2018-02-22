@@ -84,6 +84,8 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL      = "ticketing.create_ticket.labelAddressDetail";
     private static final String MESSAGE_MARKER_USER_POSTAL_CODE         = "ticketing.create_ticket.labelPostalCode";
     private static final String MESSAGE_MARKER_USER_CITY                = "ticketing.create_ticket.labelCity";
+    private static final String MESSAGE_MARKER_USER_PRIORITY         	= "ticketing.view_ticket_details.labelTicketPriority";
+    private static final String MESSAGE_MARKER_USER_CRITICALITY         = "ticketing.view_ticket_details.labelTicketCriticality";
 
     private static final String SEMICOLON                               = ";";
 
@@ -298,6 +300,8 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS_DETAIL, MESSAGE_MARKER_USER_ADDRESS_DETAIL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_PRIORITY, MESSAGE_MARKER_USER_PRIORITY ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CRITICALITY, MESSAGE_MARKER_USER_CRITICALITY ) );
 
         return collectionNotifyGruMarkers;
     }
