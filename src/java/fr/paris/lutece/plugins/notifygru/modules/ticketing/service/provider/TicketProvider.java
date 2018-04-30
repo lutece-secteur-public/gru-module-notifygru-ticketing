@@ -48,7 +48,6 @@ import fr.paris.lutece.plugins.ticketing.business.category.TicketCategoryTypeHom
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketCriticality;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
-import fr.paris.lutece.plugins.ticketing.service.category.TicketCategoryService;
 import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.NotificationService;
@@ -136,7 +135,7 @@ public class TicketProvider implements IProvider
     @Override
     public String provideDemandTypeId( )
     {
-        return String.valueOf( TicketCategoryService.getInstance( ).findCategoryById( _ticket.getTicketType( ).getId( ) ).getDemandId( ) );
+        return String.valueOf( _ticket.getDemandId( ) );
     }
 
     /**
