@@ -100,13 +100,17 @@ public class TicketProvider implements IProvider
 
     /**
      * Constructor
-     * 
+     *
      * @param resourceHistory
      *            the resource history. Corresponds to the {@code Ticket} object containing the data to provide
      */
     public TicketProvider( ResourceHistory resourceHistory, HttpServletRequest request )
     {
         _ticket = TicketHome.findByPrimaryKey( resourceHistory.getIdResource( ) );
+        if ( _ticket == null )
+        {
+            return;
+        }
         Boolean tempAttributeUnitChanged = null;
 
         if ( request != null )
@@ -208,6 +212,10 @@ public class TicketProvider implements IProvider
     public Collection<NotifyGruMarker> provideMarkerValues( )
     {
         Collection<NotifyGruMarker> collectionNotifyGruMarkers = new ArrayList<>( );
+        if ( _ticket == null )
+        {
+            return collectionNotifyGruMarkers;
+        }
 
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_TITLE, _ticket.getUserTitle( ) ) );
         collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_FIRSTNAME, _ticket.getFirstname( ) ) );
@@ -218,7 +226,7 @@ public class TicketProvider implements IProvider
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_UNIT_NAME, _ticket.getAssigneeUnit( ).getName( ) ) );
         }
 
-        if ( _bTicketingUnitChanged )
+        if ( _bTicketingUnitChanged || ( _ticket.getNbRelance( ) > 0 ) )
         {
             StringBuilder sb = new StringBuilder( );
             INotificationService ns = SpringContextService.getBean( NotificationService.BEAN_NAME );
@@ -288,7 +296,7 @@ public class TicketProvider implements IProvider
 
     /**
      * Gives the marker descriptions
-     * 
+     *
      * @return the marker descritions
      */
     public static Collection<NotifyGruMarker> getProviderMarkerDescriptions( )
@@ -331,7 +339,7 @@ public class TicketProvider implements IProvider
 
     /**
      * Creates a {@code NotifyGruMarker} object with the specified marker and value.
-     * 
+     *
      * @param strMarker
      *            the marker
      * @param strValue
@@ -348,7 +356,7 @@ public class TicketProvider implements IProvider
 
     /**
      * Creates a {@code NotifyGruMarker} object with the specified marker and description.
-     * 
+     *
      * @param strMarker
      *            the marker
      * @param strDescription
