@@ -226,7 +226,7 @@ public class TicketProvider implements IProvider
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_UNIT_NAME, _ticket.getAssigneeUnit( ).getName( ) ) );
         }
 
-        if ( _bTicketingUnitChanged || ( _ticket.getNbRelance( ) > 0 ) )
+        if ( ( _ticket.getAssigneeUnit( ) != null ) && ( _bTicketingUnitChanged || ( _ticket.getNbRelance( ) > 0 ) ) )
         {
             StringBuilder sb = new StringBuilder( );
             INotificationService ns = SpringContextService.getBean( NotificationService.BEAN_NAME );
