@@ -63,8 +63,6 @@ public final class Constants
     public static final String MARK_USER_ADDRESS_DETAIL     = "address_detail";
     public static final String MARK_USER_POSTAL_CODE        = "postal_code";
     public static final String MARK_USER_CITY               = "city";
-    public static final String MARK_USER_PRIORITY           = "priority";
-    public static final String MARK_USER_CRITICALITY        = "criticality";
 
     public static final String MARK_CATEGORY                = "ticket_category_level_";
 

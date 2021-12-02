@@ -35,18 +35,15 @@ package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.Constants;
 import fr.paris.lutece.plugins.ticketing.business.category.TicketCategoryType;
 import fr.paris.lutece.plugins.ticketing.business.category.TicketCategoryTypeHome;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
-import fr.paris.lutece.plugins.ticketing.business.ticket.TicketCriticality;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
 import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
@@ -86,11 +83,6 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL      = "ticketing.create_ticket.labelAddressDetail";
     private static final String MESSAGE_MARKER_USER_POSTAL_CODE         = "ticketing.create_ticket.labelPostalCode";
     private static final String MESSAGE_MARKER_USER_CITY                = "ticketing.create_ticket.labelCity";
-    private static final String MESSAGE_MARKER_USER_PRIORITY            = "ticketing.view_ticket_details.labelTicketPriority";
-    private static final String MESSAGE_MARKER_USER_CRITICALITY         = "ticketing.view_ticket_details.labelTicketCriticality";
-
-    private static final String MESSAGE_MARKER_PRIORITY_LABEL           = "module.workflow.ticketing.task_ticket_email_external_user_config.label_entry.priority_label";
-    private static final String MESSAGE_MARKER_CRITICALITY_LABEL        = "module.workflow.ticketing.task_ticket_email_external_user_config.label_entry.criticality_label";
 
     private static final String SEMICOLON                               = ";";
 
@@ -273,24 +265,6 @@ public class TicketProvider implements IProvider
 
         }
 
-        if ( _ticket.getPriority( ) != 0 )
-        {
-            TicketCriticality priority = TicketCriticality.valueOf( _ticket.getPriority( ) );
-            String priorityLabel = StringUtils.EMPTY;
-            priorityLabel = I18nService.getLocalizedString( MESSAGE_MARKER_PRIORITY_LABEL, I18nService.getDefaultLocale( ) ) + priority.getLocalizedMessage( Locale.FRENCH );
-
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_PRIORITY, priorityLabel ) );
-        }
-
-        if ( _ticket.getCriticality( ) != 0 )
-        {
-            TicketCriticality criticality = TicketCriticality.valueOf( _ticket.getCriticality( ) );
-            String criticalityLabel = StringUtils.EMPTY;
-            criticalityLabel = I18nService.getLocalizedString( MESSAGE_MARKER_CRITICALITY_LABEL, I18nService.getDefaultLocale( ) ) + criticality.getLocalizedMessage( Locale.FRENCH );
-
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_CRITICALITY, criticalityLabel ) );
-        }
-
         return collectionNotifyGruMarkers;
     }
 
@@ -331,8 +305,6 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS_DETAIL, MESSAGE_MARKER_USER_ADDRESS_DETAIL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
-        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_PRIORITY, MESSAGE_MARKER_USER_PRIORITY ) );
-        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CRITICALITY, MESSAGE_MARKER_USER_CRITICALITY ) );
 
         return collectionNotifyGruMarkers;
     }
