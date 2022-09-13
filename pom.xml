@@ -10,7 +10,7 @@
     <groupId>fr.paris.lutece.plugins</groupId>
     <artifactId>module-notifygru-ticketing</artifactId>
     <packaging>lutece-plugin</packaging>
-    <version>2.0.7-SNAPSHOT</version>
+    <version>2.0.7</version>
     <name>Lutece notifygru ticketing module</name>
 
     <repositories>
@@ -67,7 +67,7 @@
         <connection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</developerConnection>
         <url>https://github.com/lutece-secteur-public/gru-module-notifygru-ticketing.git</url>
-        <tag>HEAD</tag>
+        <tag>module-notifygru-ticketing-2.0.7</tag>
     </scm>
 
 </project>
