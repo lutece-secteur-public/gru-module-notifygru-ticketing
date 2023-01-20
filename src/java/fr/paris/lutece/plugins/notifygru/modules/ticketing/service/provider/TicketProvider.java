@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.plugins.notifygru.modules.ticketing.service.provider;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -84,6 +86,11 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_POSTAL_CODE         = "ticketing.create_ticket.labelPostalCode";
     private static final String MESSAGE_MARKER_USER_CITY                = "ticketing.create_ticket.labelCity";
 
+    /**
+     * Action "Relance niveau 3"
+     */
+    private int                 nIdActionRelance                        = AppPropertiesService.getPropertyInt( "workflow.ticketing.actions.id.notify.level3", TicketingConstants.PROPERTY_UNSET_INT );
+
     private static final String SEMICOLON                               = ";";
 
     private Ticket              _ticket;
@@ -113,6 +120,12 @@ public class TicketProvider implements IProvider
         if ( tempAttributeUnitChanged != null )
         {
             _bTicketingUnitChanged = tempAttributeUnitChanged;
+        }
+
+        if ( resourceHistory.getAction( ).getId( ) == nIdActionRelance )
+        {
+            _ticket.setDateDerniereRelance( new Timestamp( new Date( ).getTime( ) ) );
+            TicketHome.update( _ticket );
         }
     }
 
