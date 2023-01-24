@@ -122,7 +122,7 @@ public class TicketProvider implements IProvider
             _bTicketingUnitChanged = tempAttributeUnitChanged;
         }
 
-        if ( resourceHistory.getAction( ).getId( ) == nIdActionRelance )
+        if ( ( resourceHistory.getAction( ).getId( ) == nIdActionRelance ) && Boolean.TRUE.equals( _ticket.isPossibleToNotify( _ticket.getTicketCategory( ) ) ) )
         {
             _ticket.setDateDerniereRelance( new Timestamp( new Date( ).getTime( ) ) );
             TicketHome.update( _ticket );
