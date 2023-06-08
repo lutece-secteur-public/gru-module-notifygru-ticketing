@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2023, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,10 +43,12 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import fr.paris.lutece.plugins.notifygru.modules.ticketing.Constants;
+import fr.paris.lutece.plugins.ticketing.business.category.TicketCategory;
 import fr.paris.lutece.plugins.ticketing.business.category.TicketCategoryType;
 import fr.paris.lutece.plugins.ticketing.business.category.TicketCategoryTypeHome;
 import fr.paris.lutece.plugins.ticketing.business.ticket.Ticket;
 import fr.paris.lutece.plugins.ticketing.business.ticket.TicketHome;
+import fr.paris.lutece.plugins.ticketing.service.util.PluginConfigurationService;
 import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.NotificationService;
@@ -85,6 +87,10 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL      = "ticketing.create_ticket.labelAddressDetail";
     private static final String MESSAGE_MARKER_USER_POSTAL_CODE         = "ticketing.create_ticket.labelPostalCode";
     private static final String MESSAGE_MARKER_USER_CITY                = "ticketing.create_ticket.labelCity";
+    private static final String MESSAGE_MARKER_AVERAGE_DELAY            = "ticketing.create_category.labelDelaiMoyen";
+    // Debut de phrase en preparation du message pour le delai de traitement
+    private static final String PREPARE_SENTENCE_DELAY                  = PluginConfigurationService.getString( PluginConfigurationService.PROPERTY_DELAI_MESSAGE,
+            "Le délai moyen de traitement pour des anomalies de ce type est de " );
 
     /**
      * Action "Relance niveau 3"
@@ -257,6 +263,15 @@ public class TicketProvider implements IProvider
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_CATEGORY + depth, _ticket.getCategoryOfDepth( depth ).getLabel( ) ) );
         }
 
+        TicketCategory categorie = _ticket.getTicketCategory( );
+
+        StringBuilder messageDelai = getDelaiMessage( categorie );
+
+        if ( !messageDelai.toString( ).equals( "" ) )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_DELAI_MOYEN_MESSAGE, messageDelai.toString( ) ) );
+        }
+
         if ( _ticket.getChannel( ) != null )
         {
             collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_TICKET_CHANNEL, _ticket.getChannel( ).getLabel( ) ) );
@@ -279,6 +294,52 @@ public class TicketProvider implements IProvider
         }
 
         return collectionNotifyGruMarkers;
+    }
+
+    /**
+     * give a message delay accross criteria ( si delaiTraitementMoyen existe : ordre sous-thematique, thematique ou domaine )
+     *
+     * @return the message delay
+     */
+    private StringBuilder getDelaiMessage( TicketCategory categorie )
+    {
+        StringBuilder messageDelai = new StringBuilder( );
+        if ( ( categorie.getDelaiTraitementMoyen( ) != null ) && ( !"".equals( categorie.getDelaiTraitementMoyen( ) ) ) )
+        {
+            messageDelai = constructMessageDelai( categorie );
+        }
+        else
+            if ( ( categorie.getIdParent( ) != -1 ) && ( categorie.getParent( ).getDelaiTraitementMoyen( ) != null ) && ( !"".equals( categorie.getParent( ).getDelaiTraitementMoyen( ) ) ) )
+            {
+                TicketCategory categorieParent2 = categorie.getParent( );
+                messageDelai = constructMessageDelai( categorieParent2 );
+            }
+            else
+                if ( ( categorie.getParent( ).getIdParent( ) != -1 )
+                        && ( ( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) ) ) ) )
+                {
+                    TicketCategory categorieParent3 = categorie.getParent( ).getParent( );
+                    messageDelai = constructMessageDelai( categorieParent3 );
+
+                }
+        return messageDelai;
+    }
+
+    /**
+     * Construct message delay accross criteria
+     *
+     * @return the message delay
+     */
+    private StringBuilder constructMessageDelai( TicketCategory categorie )
+    {
+        StringBuilder messageDelaiConstruct = new StringBuilder( );
+        messageDelaiConstruct.append( PREPARE_SENTENCE_DELAY ).append( categorie.getDelaiTraitementMoyen( ) ).append( " " ).append( categorie.getDelaiTraitementUnite( ) == 0 ? "heures" : "jours" );
+        if ( categorie.getDelaiTraitementComplement( ) != null )
+        {
+            messageDelaiConstruct.append( ". " ).append( categorie.getDelaiTraitementComplement( ) );
+
+        }
+        return messageDelaiConstruct;
     }
 
     /**
@@ -318,6 +379,7 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_ADDRESS_DETAIL, MESSAGE_MARKER_USER_ADDRESS_DETAIL ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_DELAI_MOYEN_MESSAGE, MESSAGE_MARKER_AVERAGE_DELAY ) );
 
         return collectionNotifyGruMarkers;
     }
