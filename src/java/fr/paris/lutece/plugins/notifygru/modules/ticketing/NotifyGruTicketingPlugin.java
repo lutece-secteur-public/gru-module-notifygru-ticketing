@@ -44,7 +44,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
  */
 public class NotifyGruTicketingPlugin extends PluginDefaultImplementation
 {
-    public static final String PLUGIN_NAME              = "notifygru-ticketing";
+    public static final String PLUGIN_NAME = "notifygru-ticketing";
     public static final String BEAN_TRANSACTION_MANAGER = PLUGIN_NAME + ".transactionManager";
 
     /**
