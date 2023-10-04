@@ -66,42 +66,42 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 public class TicketProvider implements IProvider
 {
     // PROPERTY KEY
-    private static final String PROPERTY_SMS_SENDER_NAME                = "workflow-notifygruticketing.gruprovider.sms.sendername";
+    private static final String PROPERTY_SMS_SENDER_NAME = "workflow-notifygruticketing.gruprovider.sms.sendername";
 
     // MESSAGE KEY
-    private static final String MESSAGE_MARKER_TICKET_REFERENCE         = "ticketing.manage_tickets.columnReference";
-    private static final String MESSAGE_MARKER_TICKET_CHANNEL           = "ticketing.create_instantresponse.labelChannel";
-    private static final String MESSAGE_MARKER_TICKET_COMMENT           = "ticketing.create_ticket.labelTicketComment";
-    private static final String MESSAGE_MARKER_USER_TITLE               = "ticketing.create_ticket.labelUserTitle";
-    private static final String MESSAGE_MARKER_USER_FIRSTNAME           = "ticketing.create_ticket.labelFirstname";
-    private static final String MESSAGE_MARKER_USER_LASTNAME            = "ticketing.create_ticket.labelLastname";
-    private static final String MESSAGE_MARKER_USER_UNIT                = "ticketing.manage_tickets.columnTicketAssignee";
-    private static final String MESSAGE_MARKER_USER_CONTACT_MODE        = "ticketing.create_ticket.labelContactMode";
-    private static final String MESSAGE_MARKER_USER_FIXED_PHONE_NUMBER  = "ticketing.create_ticket.labelFixedPhoneNumber";
+    private static final String MESSAGE_MARKER_TICKET_REFERENCE = "ticketing.manage_tickets.columnReference";
+    private static final String MESSAGE_MARKER_TICKET_CHANNEL = "ticketing.create_instantresponse.labelChannel";
+    private static final String MESSAGE_MARKER_TICKET_COMMENT = "ticketing.create_ticket.labelTicketComment";
+    private static final String MESSAGE_MARKER_USER_TITLE = "ticketing.create_ticket.labelUserTitle";
+    private static final String MESSAGE_MARKER_USER_FIRSTNAME = "ticketing.create_ticket.labelFirstname";
+    private static final String MESSAGE_MARKER_USER_LASTNAME = "ticketing.create_ticket.labelLastname";
+    private static final String MESSAGE_MARKER_USER_UNIT = "ticketing.manage_tickets.columnTicketAssignee";
+    private static final String MESSAGE_MARKER_USER_CONTACT_MODE = "ticketing.create_ticket.labelContactMode";
+    private static final String MESSAGE_MARKER_USER_FIXED_PHONE_NUMBER = "ticketing.create_ticket.labelFixedPhoneNumber";
     private static final String MESSAGE_MARKER_USER_MOBILE_PHONE_NUMBER = "ticketing.create_ticket.labelMobilePhoneNumber";
-    private static final String MESSAGE_MARKER_USER_EMAIL               = "ticketing.create_ticket.labelEmail";
-    private static final String MESSAGE_MARKER_USER_UNIT_EMAIL          = "module.notifygru.ticketing.provider.ticket.marker.unitEmail";
-    private static final String MESSAGE_MARKER_USER_MESSAGE             = "module.notifygru.ticketing.provider.ticket.marker.userMessage";
-    private static final String MESSAGE_MARKER_TECHNICAL_URL_COMPLETE   = "module.notifygru.ticketing.provider.ticket.marker.urlComplete";
-    private static final String MESSAGE_MARKER_USER_ADDRESS             = "ticketing.create_ticket.labelAddress";
-    private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL      = "ticketing.create_ticket.labelAddressDetail";
-    private static final String MESSAGE_MARKER_USER_POSTAL_CODE         = "ticketing.create_ticket.labelPostalCode";
-    private static final String MESSAGE_MARKER_USER_CITY                = "ticketing.create_ticket.labelCity";
-    private static final String MESSAGE_MARKER_AVERAGE_DELAY            = "ticketing.create_category.labelDelaiMoyen";
+    private static final String MESSAGE_MARKER_USER_EMAIL = "ticketing.create_ticket.labelEmail";
+    private static final String MESSAGE_MARKER_USER_UNIT_EMAIL = "module.notifygru.ticketing.provider.ticket.marker.unitEmail";
+    private static final String MESSAGE_MARKER_USER_MESSAGE = "module.notifygru.ticketing.provider.ticket.marker.userMessage";
+    private static final String MESSAGE_MARKER_TECHNICAL_URL_COMPLETE = "module.notifygru.ticketing.provider.ticket.marker.urlComplete";
+    private static final String MESSAGE_MARKER_USER_ADDRESS = "ticketing.create_ticket.labelAddress";
+    private static final String MESSAGE_MARKER_USER_ADDRESS_DETAIL = "ticketing.create_ticket.labelAddressDetail";
+    private static final String MESSAGE_MARKER_USER_POSTAL_CODE = "ticketing.create_ticket.labelPostalCode";
+    private static final String MESSAGE_MARKER_USER_CITY = "ticketing.create_ticket.labelCity";
+    private static final String MESSAGE_MARKER_AVERAGE_DELAY = "ticketing.create_category.labelDelaiMoyen";
     // Debut de phrase en preparation du message pour le delai de traitement
-    private static final String PREPARE_SENTENCE_DELAY                  = PluginConfigurationService.getString( PluginConfigurationService.PROPERTY_DELAI_MESSAGE,
+    private static final String PREPARE_SENTENCE_DELAY = PluginConfigurationService.getString( PluginConfigurationService.PROPERTY_DELAI_MESSAGE,
             "Le délai moyen de traitement pour des anomalies de ce type est de " );
 
     /**
      * Action "Relance niveau 3"
      */
-    private int                 nIdActionRelance                        = AppPropertiesService.getPropertyInt( "workflow.ticketing.actions.id.notify.level3", TicketingConstants.PROPERTY_UNSET_INT );
+    private int nIdActionRelance = AppPropertiesService.getPropertyInt( "workflow.ticketing.actions.id.notify.level3", TicketingConstants.PROPERTY_UNSET_INT );
 
-    private static final String SEMICOLON                               = ";";
+    private static final String SEMICOLON = ";";
 
-    private Ticket              _ticket;
+    private Ticket _ticket;
 
-    private boolean             _bTicketingUnitChanged                  = false;
+    private boolean _bTicketingUnitChanged = false;
 
     /**
      * Constructor
@@ -120,7 +120,7 @@ public class TicketProvider implements IProvider
 
         if ( request != null )
         {
-            tempAttributeUnitChanged = ( Boolean ) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
+            tempAttributeUnitChanged = (Boolean) request.getAttribute( TicketingConstants.ATTRIBUTE_IS_UNIT_CHANGED );
         }
 
         if ( tempAttributeUnitChanged != null )
@@ -128,7 +128,8 @@ public class TicketProvider implements IProvider
             _bTicketingUnitChanged = tempAttributeUnitChanged;
         }
 
-        if ( ( resourceHistory.getAction( ).getId( ) == nIdActionRelance ) && Boolean.TRUE.equals( _ticket.isPossibleToNotify( _ticket.getTicketCategory( ) ) ) )
+        if ( ( resourceHistory.getAction( ).getId( ) == nIdActionRelance )
+                && Boolean.TRUE.equals( _ticket.isPossibleToNotify( _ticket.getTicketCategory( ) ) ) )
         {
             _ticket.setDateDerniereRelance( new Timestamp( new Date( ).getTime( ) ) );
             TicketHome.update( _ticket );
@@ -286,10 +287,14 @@ public class TicketProvider implements IProvider
 
         if ( _ticket.getTicketAddress( ) != null )
         {
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddress( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_ADDRESS_DETAIL, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddressDetail( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_POSTAL_CODE, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getPostalCode( ) ) ) );
-            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_USER_CITY, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getCity( ) ) ) );
+            collectionNotifyGruMarkers
+                    .add( createMarkerValues( Constants.MARK_USER_ADDRESS, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddress( ) ) ) );
+            collectionNotifyGruMarkers.add(
+                    createMarkerValues( Constants.MARK_USER_ADDRESS_DETAIL, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getAddressDetail( ) ) ) );
+            collectionNotifyGruMarkers
+                    .add( createMarkerValues( Constants.MARK_USER_POSTAL_CODE, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getPostalCode( ) ) ) );
+            collectionNotifyGruMarkers
+                    .add( createMarkerValues( Constants.MARK_USER_CITY, StringEscapeUtils.escapeHtml( _ticket.getTicketAddress( ).getCity( ) ) ) );
 
         }
 
@@ -309,14 +314,15 @@ public class TicketProvider implements IProvider
             messageDelai = constructMessageDelai( categorie );
         }
         else
-            if ( ( categorie.getIdParent( ) != -1 ) && ( categorie.getParent( ).getDelaiTraitementMoyen( ) != null ) && ( !"".equals( categorie.getParent( ).getDelaiTraitementMoyen( ) ) ) )
+            if ( ( categorie.getIdParent( ) != -1 ) && ( categorie.getParent( ).getDelaiTraitementMoyen( ) != null )
+                    && ( !"".equals( categorie.getParent( ).getDelaiTraitementMoyen( ) ) ) )
             {
                 TicketCategory categorieParent2 = categorie.getParent( );
                 messageDelai = constructMessageDelai( categorieParent2 );
             }
             else
-                if ( ( categorie.getParent( ).getIdParent( ) != -1 )
-                        && ( ( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) ) ) ) )
+                if ( ( categorie.getParent( ).getIdParent( ) != -1 ) && ( ( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) != null )
+                        && ( !"".equals( categorie.getParent( ).getParent( ).getDelaiTraitementMoyen( ) ) ) ) )
                 {
                     TicketCategory categorieParent3 = categorie.getParent( ).getParent( );
                     messageDelai = constructMessageDelai( categorieParent3 );
@@ -333,7 +339,8 @@ public class TicketProvider implements IProvider
     private StringBuilder constructMessageDelai( TicketCategory categorie )
     {
         StringBuilder messageDelaiConstruct = new StringBuilder( );
-        messageDelaiConstruct.append( PREPARE_SENTENCE_DELAY ).append( categorie.getDelaiTraitementMoyen( ) ).append( " " ).append( categorie.getDelaiTraitementUnite( ) == 0 ? "heures" : "jours" );
+        messageDelaiConstruct.append( PREPARE_SENTENCE_DELAY ).append( categorie.getDelaiTraitementMoyen( ) ).append( " " )
+                .append( categorie.getDelaiTraitementUnite( ) == 0 ? "heures" : "jours" );
         if ( categorie.getDelaiTraitementComplement( ) != null )
         {
             messageDelaiConstruct.append( ". " ).append( categorie.getDelaiTraitementComplement( ) );
