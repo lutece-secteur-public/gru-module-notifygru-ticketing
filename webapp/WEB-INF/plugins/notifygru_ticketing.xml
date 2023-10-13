@@ -2,7 +2,7 @@
     
      <class>fr.paris.lutece.plugins.notifygru.modules.ticketing.NotifyGruTicketingPlugin</class>
     <name>notifygru-ticketing</name>
-     <version>3.1.1</version>
+     <version>3.1.2-SNAPSHOT</version>
     <documentation/>
     <installation/>
     <changes/>
