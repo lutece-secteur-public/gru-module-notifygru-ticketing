@@ -377,7 +377,7 @@ public class TicketProvider implements IProvider
             nomService = categorie.getNomService( );
         } else
         {
-            if ( ( categorie.getIdParent( ) != -1 ) && (( categorie.getParent( ).getNomService( ) != null ) || ( !"".equals( categorie.getParent( ).getNomService( ) ) ) ) )
+            if ( ( categorie.getIdParent( ) != -1 ) && ( ( categorie.getParent( ).getNomService( ) != null ) && ( !"".equals( categorie.getParent( ).getNomService( ) ) ) ) )
             {
                 TicketCategory categorieParent2 = categorie.getParent( );
                 nomService = categorieParent2.getNomService( );
@@ -390,7 +390,7 @@ public class TicketProvider implements IProvider
             } else if ( ( categorie.getParent( ).getParent( ).getIdParent( ) != -1 )
                     && ( ( categorie.getParent( ).getParent( ).getParent( ).getNomService( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getParent( ).getNomService( ) ) ) ) )
             {
-                TicketCategory categorieParent4 = categorie.getParent( ).getParent( );
+                TicketCategory categorieParent4 = categorie.getParent( ).getParent( ).getParent( );
                 nomService = categorieParent4.getNomService( );
             }
         }
@@ -423,7 +423,7 @@ public class TicketProvider implements IProvider
             } else if ( ( categorie.getParent( ).getParent( ).getIdParent( ) != -1 )
                     && ( ( categorie.getParent( ).getParent( ).getParent( ).getSignature( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getParent( ).getSignature( ) ) ) ) )
             {
-                TicketCategory categorieParent4 = categorie.getParent( ).getParent( );
+                TicketCategory categorieParent4 = categorie.getParent( ).getParent( ).getParent( );
                 signature = categorieParent4.getSignature( );
             }
         }
