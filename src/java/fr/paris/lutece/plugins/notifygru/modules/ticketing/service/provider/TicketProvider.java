@@ -88,6 +88,9 @@ public class TicketProvider implements IProvider
     private static final String MESSAGE_MARKER_USER_POSTAL_CODE = "ticketing.create_ticket.labelPostalCode";
     private static final String MESSAGE_MARKER_USER_CITY = "ticketing.create_ticket.labelCity";
     private static final String MESSAGE_MARKER_AVERAGE_DELAY = "ticketing.create_category.labelDelaiMoyen";
+    private static final String MESSAGE_MARKER_NOM_SERVICE              = "ticketing.create_category.labelNomService";
+    private static final String MESSAGE_MARKER_SIGNATURE                = "ticketing.create_category.labelSignature";
+
     // Debut de phrase en preparation du message pour le delai de traitement
     private static final String PREPARE_SENTENCE_DELAY = PluginConfigurationService.getString( PluginConfigurationService.PROPERTY_DELAI_MESSAGE,
             "Le délai moyen de traitement pour des anomalies de ce type est de " );
@@ -265,6 +268,18 @@ public class TicketProvider implements IProvider
         }
 
         TicketCategory categorie = _ticket.getTicketCategory( );
+        categorie.setNomService( getNomServiceBasedOnDomaine( categorie ) );
+        categorie.setSignature( getSignatureBasedOnDomaine( categorie ) );
+
+        if ( ( null != categorie.getNomService( ) ) && !"".equals( categorie.getNomService( ) ) )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_NOM_SERVICE, categorie.getNomService( ) ) );
+        }
+
+        if ( ( null != categorie.getSignature( ) ) && !"".equals( categorie.getSignature( ) ) )
+        {
+            collectionNotifyGruMarkers.add( createMarkerValues( Constants.MARK_SIGNATURE, categorie.getSignature( ) ) );
+        }
 
         StringBuilder messageDelai = getDelaiMessage( categorie );
 
@@ -350,6 +365,72 @@ public class TicketProvider implements IProvider
     }
 
     /**
+     * give the service name based on domaine
+     *
+     * @return the categorie
+     */
+    private String getNomServiceBasedOnDomaine( TicketCategory categorie )
+    {
+        String nomService = "";
+        if ( ( categorie.getNomService( ) != null ) && ( !"".equals( categorie.getNomService( ) ) ) )
+        {
+            nomService = categorie.getNomService( );
+        } else
+        {
+            if ( ( categorie.getIdParent( ) != -1 ) && (( categorie.getParent( ).getNomService( ) != null ) || ( !"".equals( categorie.getParent( ).getNomService( ) ) ) ) )
+            {
+                TicketCategory categorieParent2 = categorie.getParent( );
+                nomService = categorieParent2.getNomService( );
+            } else if ( ( categorie.getParent( ).getIdParent( ) != -1 )
+                    && ( ( categorie.getParent( ).getParent( ).getNomService( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getNomService( ) ) ) ) )
+            {
+                TicketCategory categorieParent3 = categorie.getParent( ).getParent( );
+                nomService = categorieParent3.getNomService( );
+
+            } else if ( ( categorie.getParent( ).getParent( ).getIdParent( ) != -1 )
+                    && ( ( categorie.getParent( ).getParent( ).getParent( ).getNomService( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getParent( ).getNomService( ) ) ) ) )
+            {
+                TicketCategory categorieParent4 = categorie.getParent( ).getParent( );
+                nomService = categorieParent4.getNomService( );
+            }
+        }
+        return nomService;
+    }
+
+    /**
+     * give the signature name based on domaine
+     *
+     * @return the categorie
+     */
+    private String getSignatureBasedOnDomaine( TicketCategory categorie )
+    {
+        String signature = "";
+        if ( ( categorie.getSignature( ) != null ) && ( !"".equals( categorie.getSignature( ) ) ) )
+        {
+            signature = categorie.getSignature( );
+        } else
+        {
+            if ( ( categorie.getIdParent( ) != -1 ) && ( categorie.getParent( ).getSignature( ) != null ) && ( !"".equals( categorie.getParent( ).getSignature( ) ) ) )
+            {
+                TicketCategory categorieParent2 = categorie.getParent( );
+                signature = categorieParent2.getSignature( );
+            } else if ( ( categorie.getParent( ).getIdParent( ) != -1 )
+                    && ( ( categorie.getParent( ).getParent( ).getSignature( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getSignature( ) ) ) ) )
+            {
+                TicketCategory categorieParent3 = categorie.getParent( ).getParent( );
+                signature = categorieParent3.getSignature( );
+
+            } else if ( ( categorie.getParent( ).getParent( ).getIdParent( ) != -1 )
+                    && ( ( categorie.getParent( ).getParent( ).getParent( ).getSignature( ) != null ) && ( !"".equals( categorie.getParent( ).getParent( ).getParent( ).getSignature( ) ) ) ) )
+            {
+                TicketCategory categorieParent4 = categorie.getParent( ).getParent( );
+                signature = categorieParent4.getSignature( );
+            }
+        }
+        return signature;
+    }
+
+    /**
      * Gives the marker descriptions
      *
      * @return the marker descritions
@@ -387,6 +468,8 @@ public class TicketProvider implements IProvider
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_POSTAL_CODE, MESSAGE_MARKER_USER_POSTAL_CODE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_CITY, MESSAGE_MARKER_USER_CITY ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_DELAI_MOYEN_MESSAGE, MESSAGE_MARKER_AVERAGE_DELAY ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_NOM_SERVICE, MESSAGE_MARKER_NOM_SERVICE  ) );
+        collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_SIGNATURE, MESSAGE_MARKER_SIGNATURE  ) );
 
         return collectionNotifyGruMarkers;
     }
