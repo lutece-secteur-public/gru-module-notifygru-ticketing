@@ -52,9 +52,9 @@ import fr.paris.lutece.plugins.ticketing.service.util.PluginConfigurationService
 import fr.paris.lutece.plugins.ticketing.web.TicketingConstants;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.INotificationService;
 import fr.paris.lutece.plugins.unittree.modules.notification.service.NotificationService;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.IProvider;
-import fr.paris.lutece.plugins.workflow.modules.notifygru.service.provider.NotifyGruMarker;
 import fr.paris.lutece.plugins.workflowcore.business.resource.ResourceHistory;
+import fr.paris.lutece.plugins.workflowcore.service.provider.IProvider;
+import fr.paris.lutece.plugins.workflowcore.service.provider.InfoMarker;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -224,9 +224,9 @@ public class TicketProvider implements IProvider
      * {@inheritDoc}
      */
     @Override
-    public Collection<NotifyGruMarker> provideMarkerValues( )
+    public Collection<InfoMarker> provideMarkerValues( )
     {
-        Collection<NotifyGruMarker> collectionNotifyGruMarkers = new ArrayList<>( );
+        Collection<InfoMarker> collectionNotifyGruMarkers = new ArrayList<>( );
         if ( _ticket == null )
         {
             return collectionNotifyGruMarkers;
@@ -435,9 +435,9 @@ public class TicketProvider implements IProvider
      *
      * @return the marker descritions
      */
-    public static Collection<NotifyGruMarker> getProviderMarkerDescriptions( )
+    public static Collection<InfoMarker> getProviderMarkerDescriptions( )
     {
-        Collection<NotifyGruMarker> collectionNotifyGruMarkers = new ArrayList<>( );
+        Collection<InfoMarker> collectionNotifyGruMarkers = new ArrayList<>( );
 
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_TITLE, MESSAGE_MARKER_USER_TITLE ) );
         collectionNotifyGruMarkers.add( createMarkerDescriptions( Constants.MARK_USER_FIRSTNAME, MESSAGE_MARKER_USER_FIRSTNAME ) );
@@ -454,7 +454,7 @@ public class TicketProvider implements IProvider
         for ( TicketCategoryType categoryType : TicketCategoryTypeHome.getCategoryTypesList( ) )
         {
             int depth = categoryType.getDepthNumber( );
-            NotifyGruMarker notifyGruMarker = new NotifyGruMarker( Constants.MARK_CATEGORY + depth );
+            InfoMarker notifyGruMarker = new InfoMarker( Constants.MARK_CATEGORY + depth );
             notifyGruMarker.setDescription( categoryType.getLabel( ) );
 
             collectionNotifyGruMarkers.add( notifyGruMarker );
@@ -483,9 +483,9 @@ public class TicketProvider implements IProvider
      *            the value to inject into the {@code NotifyGruMarker} object
      * @return the {@code NotifyGruMarker} object
      */
-    private static NotifyGruMarker createMarkerValues( String strMarker, String strValue )
+    private static InfoMarker createMarkerValues( String strMarker, String strValue )
     {
-        NotifyGruMarker notifyGruMarker = new NotifyGruMarker( strMarker );
+        InfoMarker notifyGruMarker = new InfoMarker( strMarker );
         notifyGruMarker.setValue( strValue );
 
         return notifyGruMarker;
@@ -500,9 +500,9 @@ public class TicketProvider implements IProvider
      *            the description to inject into the {@code NotifyGruMarker} object
      * @return the {@code NotifyGruMarker} object
      */
-    private static NotifyGruMarker createMarkerDescriptions( String strMarker, String strDescription )
+    private static InfoMarker createMarkerDescriptions( String strMarker, String strDescription )
     {
-        NotifyGruMarker notifyGruMarker = new NotifyGruMarker( strMarker );
+        InfoMarker notifyGruMarker = new InfoMarker( strMarker );
         notifyGruMarker.setDescription( I18nService.getLocalizedString( strDescription, I18nService.getDefaultLocale( ) ) );
 
         return notifyGruMarker;
